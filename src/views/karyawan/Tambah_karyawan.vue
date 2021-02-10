@@ -37,17 +37,23 @@
           </div>
 
           <div class="d-none d-md-block d-lg-block">
-            <vs-button class="w-100 ml-n1 p-0 mt-4" @click.native="clickSave">
+            <vs-button class="w-100 ml-n1 p-0 mt-4" @click="clickSave">
               Save Data
             </vs-button>
             <vs-button
               class="w-100 ml-n1 p-0 mt-2"
               danger
               config
-              @click.native="resetForm"
+              @click="Cancels"
             >
-              Reset Data
+              Cancel
             </vs-button>
+            <!-- <vs-button
+              success
+              class="w-100 ml-n1 p-0 mt-2"
+            >
+              Kembali
+            </vs-button> -->
           </div>
         </div>
       </div>
@@ -334,15 +340,23 @@
         <a-button type="primary" block class="mt-1" @click.native="clickSave">
           Save Data
         </a-button>
-        <a-button type="danger" block class="mt-3" @click.native="resetForm">
-          Reset Data
+        <a-button type="danger" block class="mt-3" @click.native="Cancels">
+          Cancel
         </a-button>
+        <!-- <a-button
+          type="success"
+          block
+          class="mt-3"
+        >
+          Kembali
+        </a-button> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "tambah_karyawan",
   data() {
@@ -356,8 +370,8 @@ export default {
         jabatan: "",
         nik: "",
         status: "",
-        bpjs_kesehatan: "",
-        bpjs_tenagakerja: "",
+        bpjs_kesehatan: "0",
+        bpjs_tenagakerja: "0",
         status_kesehatan: "",
         status_tenagakerja: "",
         gaji: "",
@@ -459,7 +473,15 @@ export default {
       },
     };
   },
+  mounted() {
+    // if (this.find()) {
+    // }
+  },
   methods: {
+    ...mapActions({
+      addData: "newkaryawan",
+      find: "find",
+    }),
     onChange(date, dateString) {
       this.form.tanggal_lahir = dateString;
     },
@@ -471,28 +493,15 @@ export default {
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.form.token = this.$store.getters.getData.token;
-          this.$store.state.karyawanForm = this.form;
-          this.$store.dispatch("newkaryawan");
-          return this.openNotificationWithIcon(
-            "success",
-            "topRight",
-            "Karyawan baru berhasil ditambahkan, kembali ke halaman karyawan untuk melihat data terbaru ",
-            "Data karyawan baru berhasil ditambahkan !"
-          );
+          this.addData(this.form);
+          this.$refs.form.resetFields();
         } else {
           return false;
         }
       });
     },
-    openNotificationWithIcon(type, placement, description, message) {
-      this.$notification[type]({
-        message,
-        placement,
-        description,
-      });
-    },
-    resetForm() {
-      this.$refs.form.resetFields();
+    Cancels() {
+      this.$route.push({ path: '/karyawan' }, () => {})
     },
   },
 };

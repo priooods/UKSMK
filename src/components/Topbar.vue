@@ -5,9 +5,13 @@
       <div class="route mr-auto">
         <div class="d-flex align-items-center justify-content-center">
           <router-link to="/home" class="mr-3 ml-3">Home</router-link>
-          <router-link to="/karyawan" class="mr-3 ml-3">Karyawan</router-link>
+          <router-link to="/karyawan" class="mr-3 ml-3" @click="$router.go()"
+            >Karyawan</router-link
+          >
           <router-link to="/profile" class="mr-3 ml-3">Invoice</router-link>
-          <router-link to="/profile" class="mr-3 ml-3">Salary</router-link>
+          <router-link to="/profile" class="mr-3 ml-3" @click="$router.go(-1)"
+            >Salary</router-link
+          >
         </div>
       </div>
       <div class="end d-flex justify-content-end align-items-center">
@@ -40,7 +44,6 @@ export default {
     return {
       avatar: Object,
       time: null,
-      users: [],
     };
   },
   computed: {
@@ -51,26 +54,8 @@ export default {
   mounted() {
     var tm = timezone.tz("Asia/Jakarta").format("D MMMM YYYY");
     this.time = tm;
-    // this.urlimages();
   },
-  methods: {
-    urlimages() {
-      if (this.myprofile.avatar != null) {
-        return (this.avatar =
-          this.$store.state.urlimages + this.myprofile.avatar);
-      }
-      if (this.myprofile.gender == "M") {
-        this.avatar = require(`../assets/man.png`);
-      }
-      if (this.myprofile.gender == "F") {
-        this.avatar = require(`../assets/woman.png`);
-      }
-      if (this.myprofile.avatar == null) {
-        console.log("cocok");
-        // return (this.avatar = require(`../assets/man.png`));
-      }
-    },
-  },
+  methods: {},
 };
 </script>
 

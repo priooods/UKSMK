@@ -14,6 +14,12 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {title: 'Login - UKSMK'},
+    beforeEnter: (to, from, next) => {
+      if(window.localStorage.getItem("res") != null){
+        window.localStorage.removeItem("res");
+      }
+      next();
+    }
   },
   {
     path: '/home',

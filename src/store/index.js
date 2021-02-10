@@ -32,10 +32,11 @@ export default new Vuex.Store({
         response: null ,
         urlImages: 'https://digitalsystemindo.com/api/public/',
         loginForm: [],
-        karyawanForm: [],
         karyawanBaru: null,
         userDetail: null,
+        users: [],
         myprofile: null,
+        byuk: null,
         karyawanUser: []
     },
     plugins:[res],
@@ -82,8 +83,8 @@ export default new Vuex.Store({
                 console.log(err);
             })
         },
-        async newkaryawan({commit}){
-            await instance.post('register',this.state.karyawanForm).then((data)=>{
+        async newkaryawan({commit}, body){
+            await instance.post('register',body).then((data)=>{
                 this.state.karyawanBaru = data.data;
                 if (data.data.error_code == 1) {
                     return notification.error({
@@ -91,6 +92,10 @@ export default new Vuex.Store({
                         placement: 'topLeft',
                         description: "Opps... Data baru gagal ditambahkan ! periksa kembali data anda"})
                 } else{
+                    notification.success({
+                        message: "Data karyawan baru berhasil ditambahkan !",
+                        placement: 'topRight',
+                        description: "Karyawan baru berhasil ditambahkan, kembali ke halaman karyawan untuk melihat data terbaru "})
                     commit('kar', this.state.karyawanBaru )
                     
                 }
@@ -114,6 +119,67 @@ export default new Vuex.Store({
                 console.log(err);
             });
         },
+        async byuk(datas,uk){
+            await instance.post('byuk',{token: this.state.response.token, uk: uk}).then((data)=>{
+                // this.state.karyawanUser = data.data.data;
+                datas = data.data.data;
+                // commit('all', this.state.karyawanUser);
+            }).catch(err=>{
+                console.log(err);
+            });
+        },
+        async updateuser(id,form){
+            await instance.post('updateuser/' + id,form).then((data)=>{
+                if(data.data.error_code == 1){
+                    return notification.error({
+                        message: "Ooops.. Failure Update Data !",
+                        placement: 'topLeft',
+                        description: "Opps... Data karyawan gagal ditambahkan ! periksa kembali internet anda atau data karyawan"})
+                } else{
+                    return notification.success({
+                        message: "Data karyawan berhasil di update !",
+                        placement: 'topRight',
+                        description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
+                }
+            }).catch(err=>{
+                console.log(err);
+            });
+        },
+        async deleteUser(id){
+            await instance.post('deleteuser/' + id,{token: this.state.response.token}).then((data)=>{
+                if(data.data.error_code == 1){
+                    return notification.error({
+                        message: "Ooops.. Failure Update Data !",
+                        placement: 'topLeft',
+                        description: "Opps... Data karyawan gagal ditambahkan ! periksa kembali internet anda atau data karyawan"})
+                } else{
+                    return notification.success({
+                        message: "Data karyawan berhasil di update !",
+                        placement: 'topRight',
+                        description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
+                }
+            }).catch(err=>{
+                console.log(err);
+            });
+        },
+        async findoperator(){
+            await instance.post('findoperator/',{token: this.state.response.token}).then((data)=>{
+                if(data.data.error_code == 1){
+                    return notification.error({
+                        message: "Ooops.. Failure Update Data !",
+                        placement: 'topLeft',
+                        description: "Opps... Data karyawan gagal ditambahkan ! periksa kembali internet anda atau data karyawan"})
+                } else{
+                    // commit.
+                    return notification.success({
+                        message: "Data karyawan berhasil di update !",
+                        placement: 'topRight',
+                        description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
+                }
+            }).catch(err=>{
+                console.log(err);
+            });
+        },
     },
     getters:{
         getData: state => state.response,
@@ -124,7 +190,7 @@ export default new Vuex.Store({
     modules:{},
 });
 
-// Route::post('login', [AuthController::class, 'login']);
+//     Route::post('login', [AuthController::class, 'login']);
 //     Route::post('logout', [AuthController::class, 'logout']);
 //     Route::post('register', [AuthController::class, 'register']);
 //     Route::post('myprofile', [AuthController::class, 'myprofile']);
@@ -132,5 +198,8 @@ export default new Vuex.Store({
 //     Route::post('updateuser/{id}', [AuthController::class, 'updateUser']);
 //     Route::post('finduser/{id}', [AuthController::class, 'findOneUser']);
 //     Route::post('deleteuser/{id}', [AuthController::class, 'deleteUser']);
+//     Route::post('byuk', [AuthController::class, 'ByUK']);
+//     Route::post('findoperator', [AuthController::class, 'findoperator']);
+//     Route::post('useractive', [AuthController::class, 'useractive']);
 //     Route::post('addgaji', [DataGajiController::class, 'SaveData']);
 //     Route::post('carigaji', [DataGajiController::class, 'findGaji']);

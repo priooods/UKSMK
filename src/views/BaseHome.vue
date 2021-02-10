@@ -23,7 +23,7 @@ export default {
   methods: {
     getdata() {
       this.$router.push({ path: "/" }, () => {
-        window.localStorage.removeItem("res");
+        // window.localStorage.removeItem("res");
       });
     },
   },
