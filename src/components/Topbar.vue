@@ -5,13 +5,9 @@
       <div class="route mr-auto">
         <div class="d-flex align-items-center justify-content-center">
           <router-link to="/home" class="mr-3 ml-3">Home</router-link>
-          <router-link to="/karyawan" class="mr-3 ml-3" @click="$router.go()"
-            >Karyawan</router-link
-          >
-          <router-link to="/profile" class="mr-3 ml-3">Invoice</router-link>
-          <router-link to="/profile" class="mr-3 ml-3" @click="$router.go(-1)"
-            >Salary</router-link
-          >
+          <router-link to="/karyawan" class="mr-3 ml-3">Karyawan</router-link>
+          <router-link to="/warn" class="mr-3 ml-3">Invoice</router-link>
+          <router-link class="mr-3 ml-3" to="/warn">Salary</router-link>
         </div>
       </div>
       <div class="end d-flex justify-content-end align-items-center">
@@ -55,7 +51,15 @@ export default {
     var tm = timezone.tz("Asia/Jakarta").format("D MMMM YYYY");
     this.time = tm;
   },
-  methods: {},
+  methods: {
+    notifi() {
+      return this.$notification.warning({
+        message: "Warning",
+        placement: "topLeft",
+        description: "Mohon maaf halaman ini sedang dalam proses development",
+      });
+    },
+  },
 };
 </script>
 

@@ -78,6 +78,7 @@ export default new Vuex.Store({
         async myprofile({commit}){
             await instance.post('myprofile', {token: this.state.response.token}).then((data)=>{
                 this.state.myprofile = data.data;
+                console.log(this.state.myprofile);
                 commit('dat',this.state.myprofile)
             }).catch(err=>{
                 console.log(err);
@@ -119,11 +120,10 @@ export default new Vuex.Store({
                 console.log(err);
             });
         },
-        async byuk(datas,uk){
+        async byuk({commit},uk){
             await instance.post('byuk',{token: this.state.response.token, uk: uk}).then((data)=>{
-                // this.state.karyawanUser = data.data.data;
-                datas = data.data.data;
-                // commit('all', this.state.karyawanUser);
+                this.state.karyawanUser = data.data.data;
+                commit('all', this.state.karyawanUser);
             }).catch(err=>{
                 console.log(err);
             });

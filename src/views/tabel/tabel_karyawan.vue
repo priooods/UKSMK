@@ -155,10 +155,13 @@ export default {
         },
       };
     },
+    checkactive() {
+      return this.active;
+    },
   },
   computed: {
     semuaKaryawan() {
-      return this.$store.getters.allkaryawan;
+      return this.$store.state.karyawanUser;
     },
   },
 };

@@ -1,35 +1,33 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
-    <a-form-model
-      class="row"
-      ref="ruleForm"
-      layout="vertical"
-      :label-col="labelCol"
-    >
-      <a-form-model-item
-        class="col-md-10 fs"
-        has-feedback
-        prop="nama"
-        label="Nama Lengkap"
-      >
-        <!-- <p class="mb-n2">Nama Lengkap <span> *</span></p> -->
-        <a-input
-          class="in"
-          placeholder="Example: Edward Hoven Ramsey"
-          allow-clear
-        ></a-input>
-      </a-form-model-item>
-    </a-form-model>
+    <h1 class="col-md-5">Welcome back {{ use }}</h1>
+    <p class="col-md-5">
+      Saat ini halaman utama sedang dilakukan penyesuaian. Harap menunggu update
+      selanjutnya untuk menggunakan semua fitur yang akan disediakan
+    </p>
+    <p class="col-md-5">
+      Untuk saat ini silahkan menggunakan menu Karyawan untuk menambahkan data
+      karyawan
+    </p>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      use: [],
       labelCol: { sm: { span: 3, offset: 12 } },
       // wrapperCol: { span: 14 },
     };
+  },
+  mounted() {
+    this.use = this.$store.getters.users.data.nama;
+    // console.log(this.$store.getters.users.data.nama);
+  },
+  computed: {
+    users() {
+      return this.$store.getters.users;
+    },
   },
 };
 </script>

@@ -53,7 +53,7 @@
       <vs-button to="/karyawan/add"> Tambah Karyawan Baru </vs-button>
     </div>
     <div class="mt-3">
-      <tabelkaryawan />
+      <tabelkaryawan ref="tabel" />
     </div>
   </div>
 </template>
@@ -90,28 +90,51 @@ export default {
       byuk: "byuk",
       allUsers: "allUsers",
     }),
+    // checkactive() {
+    //   switch (this.active) {
+    //     case 0:
+    //       this.allUsers();
+    //       this.users = this.allKaryawan;
+    //       break;
+    //     case 1:
+    //       this.byuk("I");
+    //       this.users = this.allKaryawan;
+    //       console.log(this.users);
+    //       break;
+    //     case 2:
+    //       this.byuk("II");
+    //       this.users = this.allKaryawan;
+    //       console.log(this.users);
+    //       break;
+    //     case 3:
+    //       this.byuk("III");
+    //       this.users = this.allKaryawan;
+    //       break;
+    //   }
+    // },
     checkactive() {
-      switch (this.active) {
-        case 0:
-          this.allUsers();
-          this.users = this.allKaryawan;
-          console.log(this.users);
-          break;
-        case 1:
-          this.byuk(this.users, "I");
-          // this.users = this.allKaryawan;
-          console.log(this.users);
-          break;
-        case 2:
-          this.byuk(this.users, "II");
-          // this.users = this.allKaryawan;
-          console.log(this.users);
-          break;
-        case 3:
-          this.byuk(this.users, "III");
-          // this.users = this.allKaryawan;
-          break;
-      }
+      return this.$refs.tabel.checkactive(() => {
+        switch (this.active) {
+          case 0:
+            this.allUsers();
+            this.users = this.allKaryawan;
+            break;
+          case 1:
+            this.byuk("I");
+            this.users = this.allKaryawan;
+            console.log(this.users);
+            break;
+          case 2:
+            this.byuk("II");
+            this.users = this.allKaryawan;
+            console.log(this.users);
+            break;
+          case 3:
+            this.byuk("III");
+            this.users = this.allKaryawan;
+            break;
+        }
+      });
     },
     getIndexing() {
       this.total.semua = this.allKaryawan.length;
@@ -127,6 +150,7 @@ export default {
       this.total.uk1 = uki.length;
       this.total.uk2 = uke.length;
       this.total.uk3 = uko.length;
+      // this.allKaryawan();
     },
   },
   computed: {

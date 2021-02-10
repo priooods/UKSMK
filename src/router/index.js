@@ -6,6 +6,7 @@ import Home from '../views/Home.vue';
 import Karyawan from '../views/karyawan/Karyawan.vue';
 import TambahKaryawan from '../views/karyawan/Tambah_karyawan.vue'
 import store from '../store/index';
+import error_page from '../views/Error_page.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,6 +22,7 @@ const routes = [
       next();
     }
   },
+  { path: '/warn', component: error_page, name: 'Error',meta: {title: 'Warning - UKSMK'}, },
   {
     path: '/home',
     component: BaseHome,
@@ -42,7 +44,7 @@ const routes = [
         //   store.dispatch("allUsers");
         //   next();
         // }
-      },
+      },   
       { path: '/', component: Home, meta: {title: 'Dashboard - UKSMK'} },
       { path: '/karyawan/add', component: TambahKaryawan, meta: {title: 'Karyawan - UKSMK'} }
     ]
@@ -58,9 +60,5 @@ const router = new VueRouter({
   scrollBehavior () {
     return { x: 0, y: 0 }
   }
-})
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title;
-  next();
 })
 export default router

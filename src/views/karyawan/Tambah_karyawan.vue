@@ -44,16 +44,10 @@
               class="w-100 ml-n1 p-0 mt-2"
               danger
               config
-              @click="Cancels"
+              @click="$router.go(-1)"
             >
               Cancel
             </vs-button>
-            <!-- <vs-button
-              success
-              class="w-100 ml-n1 p-0 mt-2"
-            >
-              Kembali
-            </vs-button> -->
           </div>
         </div>
       </div>
@@ -340,16 +334,14 @@
         <a-button type="primary" block class="mt-1" @click.native="clickSave">
           Save Data
         </a-button>
-        <a-button type="danger" block class="mt-3" @click.native="Cancels">
-          Cancel
-        </a-button>
-        <!-- <a-button
-          type="success"
+        <a-button
+          type="danger"
           block
           class="mt-3"
+          @click.native="$router.go(-1)"
         >
-          Kembali
-        </a-button> -->
+          Cancel
+        </a-button>
       </div>
     </div>
   </div>
@@ -473,10 +465,7 @@ export default {
       },
     };
   },
-  mounted() {
-    // if (this.find()) {
-    // }
-  },
+  mounted() {},
   methods: {
     ...mapActions({
       addData: "newkaryawan",
@@ -499,9 +488,6 @@ export default {
           return false;
         }
       });
-    },
-    Cancels() {
-      this.$route.push({ path: '/karyawan' }, () => {})
     },
   },
 };

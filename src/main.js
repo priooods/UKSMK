@@ -20,7 +20,6 @@ Vue.use(VueAxios,axios)
 Vue.use(Vuesax);
 Vue.use(Vue2Filters)
 Vue.use(Antd);
-Vue.config.productionTip = false
 
 new Vue({
   store: store,
