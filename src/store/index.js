@@ -108,6 +108,8 @@ export default new Vuex.Store({
         },
         async allUsers({commit}){
             await instance.post('alluser',{token: this.state.response.token}).then((data)=>{
+                this.state.karyawanUser = data.data;
+                console.log(data.data);
                 commit('all', data.data.data)
                 return true;
             }).catch(()=>{

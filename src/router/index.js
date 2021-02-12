@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import BaseHome from '../views/BaseHome.vue'
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue';
-import Karyawan from '../views/karyawan/Karyawan.vue';
+import Karyawan from '../components/tabel/tabel_karyawan.vue';
 import TambahKaryawan from '../views/karyawan/Tambah_karyawan.vue'
 import store from '../store/index';
 // import error_page from '../views/Error_page.vue';
@@ -36,10 +36,10 @@ const routes = [
         path: '/karyawan', 
         component: Karyawan, 
         meta: {title: 'Karyawan - UKSMK'},
-        beforeEnter: (to, from, next) => {
-          store.dispatch("allUsers");
-          next();
-        }
+        // beforeEnter: (to, from, next) => {
+        //   store.dispatch("allUsers");
+        //   next();
+        // }
       },   
       { path: '/', component: Home, meta: {title: 'Dashboard - UKSMK'} },
       { path: '/karyawan/add', component: TambahKaryawan, meta: {title: 'Karyawan - UKSMK'} }

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <a-table
+    <h1>Hallo World</h1>
+    <!-- <a-table
       :columns="columns"
       :scroll="{ x: 1300 }"
       bordered
@@ -31,17 +32,18 @@
       </p>
       <p slot="uang_makan" slot-scope="text">{{ text | currency("Rp. ") }}</p>
       <p slot="gaji_total" slot-scope="text">{{ text | currency("Rp. ") }}</p>
-    </a-table>
+    </a-table> -->
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    users: null,
-  },
+  // props: {
+  //   users: null,
+  // },
   data() {
     return {
+      data: null,
       columns: [
         {
           title: "No",

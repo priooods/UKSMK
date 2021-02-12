@@ -79,11 +79,7 @@ export default {
   // },
   mounted() {
     console.log(this.$store.state.karyawanUser.length);
-    // this.$store
-    //   .dispatch(`allUsers`)
-    //   .then(() => {
-    //     // console.log(data);
-    //   });
+    this.$store.dispatch(`allUsers`);
   },
   methods: {
     callingUsers() {
