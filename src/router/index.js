@@ -6,7 +6,7 @@ import Home from '../views/Home.vue';
 import Karyawan from '../views/karyawan/Karyawan.vue';
 import TambahKaryawan from '../views/karyawan/Tambah_karyawan.vue'
 import store from '../store/index';
-import error_page from '../views/Error_page.vue';
+// import error_page from '../views/Error_page.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,28 +22,24 @@ const routes = [
       next();
     }
   },
-  { path: '/warn', component: error_page, name: 'Error',meta: {title: 'Warning - UKSMK'}, },
   {
     path: '/home',
     component: BaseHome,
     beforeEnter: (to,from,next) => {
       if(store.getters.getData == undefined){
         next({ name: "Login" })
-      } 
-      if(store.getters.getData != null){
-        store.dispatch("allUsers");
-        next();
-      }
+      } else
+      next();
     },
     children: [
       { 
         path: '/karyawan', 
         component: Karyawan, 
         meta: {title: 'Karyawan - UKSMK'},
-        // beforeEnter: (to, from, next) => {
-        //   store.dispatch("allUsers");
-        //   next();
-        // }
+        beforeEnter: (to, from, next) => {
+          store.dispatch("allUsers");
+          next();
+        }
       },   
       { path: '/', component: Home, meta: {title: 'Dashboard - UKSMK'} },
       { path: '/karyawan/add', component: TambahKaryawan, meta: {title: 'Karyawan - UKSMK'} }

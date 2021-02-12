@@ -1,7 +1,12 @@
 <template>
   <div class="d-none d-md-block d-lg-block d-xl-block top">
-    <div class="d-flex justify-content-end py-2 px-4 align-items-center">
-      <h5 class="mr-auto my-auto text-uppercase font-weight-bold">uksmk</h5>
+    <div class="d-flex justify-content-end py-3 px-5 align-items-center">
+      <h5
+        class="mr-auto my-auto text-uppercase font-weight-bold"
+        style="color: #195bff"
+      >
+        uksmk
+      </h5>
       <div class="route mr-auto">
         <div class="d-flex align-items-center justify-content-center">
           <router-link to="/home" class="mr-3 ml-3">Home</router-link>
@@ -14,21 +19,12 @@
         <i class="bx bx-calendar"></i>
         <p class="my-auto ml-2">{{ time }}</p>
         <p class="mx-2 my-auto">|</p>
-        <vs-tooltip bottom>
-          <vs-button circle icon danger animation-type="rotate">
-            <i class="bx bx-group"></i>
-            <template #animate>
-              <i class="bx bxs-group"></i>
-            </template>
-          </vs-button>
-          <template #tooltip> Permission </template>
-        </vs-tooltip>
-        <vs-avatar circle size="35" class="my-auto">
-          <img src="../assets/man.png" alt="" />
-        </vs-avatar>
       </div>
+      <v-avatar size="35">
+        <img src="../assets/man.png" alt="Avatar" />
+      </v-avatar>
     </div>
-    <div class="ln"></div>
+    <!-- <div class="ln"></div> -->
   </div>
 </template>
 
@@ -64,13 +60,13 @@ export default {
 </script>
 
 <style lang='scss'>
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,700&display=swap");
 .top {
   position: fixed;
   top: 0;
   right: 0;
-  background: white;
   left: 0;
+  background: white;
   z-index: 4;
   .end {
     p {
@@ -80,15 +76,17 @@ export default {
     }
   }
   .route {
-    font-weight: bold;
     a {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: "Source Sans Pro", sans-serif;
       color: rgb(172, 172, 172);
     }
     a.active {
-      color: #ff577f;
+      color: #195bff;
     }
     a:hover {
-      color: #ff577f;
+      color: #195bff;
       text-decoration: none;
     }
   }
@@ -96,20 +94,6 @@ export default {
     width: 100%;
     height: 1px;
     background: black;
-  }
-}
-
-@media screen and(max-width: 770px) {
-  .top {
-    h5 {
-      font-size: 18px;
-    }
-  }
-  .route {
-    margin-top: 0 !important;
-    .router-link {
-      margin: 0 15px 0 15px !important;
-    }
   }
 }
 </style>

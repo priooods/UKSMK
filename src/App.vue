@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <router-view></router-view>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -13,11 +13,12 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,800&display=swap");
-// #fdb827 Orange
-// #21209c Blue
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
-
+#app {
+  background: rgb(248, 248, 248);
+}
+.v-application--wrap {
+  min-height: auto !important;
+}
 ::-webkit-scrollbar {
   width: 8px;
   background: white;

@@ -20,10 +20,6 @@
               style="color: #f70000"
             ></i>
           </div>
-          <p class="mt-1">
-            Harap langkapi semua form yang diberi tanda bintang (
-            <span>*</span> ).
-          </p>
           <div class="d-block" v-if="!collapse">
             <p class="mt-2">
               Dalam pengisian form, anda dapat mengisi semua form menggunakan
@@ -52,283 +48,120 @@
         </div>
       </div>
       <div class="col-md-8">
-        <a-form-model
-          class="row"
-          ref="form"
-          :model="form"
-          layout="vertical"
-          :rules="rules"
-        >
-          <h4 class="mb-5 font-weight-bold col-md-12">Informasi Umum</h4>
-          <a-form-model-item
-            class="col-md-5 mt-n2 fs"
-            has-feedback
-            prop="nama"
-            label="Nama Lengkap"
-          >
-            <a-input
+        <v-form ref="form" v-model="valid" lazy-validation class="row">
+          <h3 class="col-md-10 mb-4">Informasi Umum</h3>
+          <div class="field col-md-4 mt-n5">
+            <v-text-field
               v-model="form.nama"
-              placeholder="ex : Edward Hoven Ramsey"
-              allow-clear
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            has-feedback
-            prop="password"
-            label="Password"
-          >
-            <a-input-password
-              placeholder="Minimum 6 Char"
+              :rules="nameRules"
+              required
+              outlined
+              background-color="white"
+              dense
+              label="Nama Lengkap"
+            ></v-text-field>
+          </div>
+          <div class="field col-md-4 mt-n5">
+            <v-text-field
               v-model="form.password"
-            >
-            </a-input-password>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            prop="nama_panggilan"
-            label="Nama Panggilan"
-            has-feedback
-          >
-            <a-input
-              placeholder="ex : Edward"
-              allow-clear
+              :rules="passwordRules"
+              label="Password"
+              outlined
+              background-color="white"
+              required
+              dense
+              :type="show ? 'text' : 'password'"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show = !show"
+            ></v-text-field>
+          </div>
+          <div class="field col-md-4 mt-n5">
+            <v-text-field
               v-model="form.nama_panggilan"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-3 mt-n2"
-            label="Status"
-            has-feedback
-            prop="status"
-          >
-            <a-input
-              placeholder="ex : Kontrak Tetap 1"
-              allow-clear
+              :rules="nameRules"
+              outlined
+              background-color="white"
+              required
+              dense
+              label="Nama Panggilan"
+            ></v-text-field>
+          </div>
+          <div class="field col-md-3 mt-n5">
+            <v-text-field
               v-model="form.status"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-2 mt-n2"
-            label="Tanggal Lahir"
-            prop="tanggal_lahir"
-            has-feedback
-          >
-            <a-date-picker
-              v-decorator="['date-picker']"
-              @change="onChange"
-              format="DD/MM/YYYY"
-            />
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            has-feedback
-            label="Gender"
-            prop="gender"
-          >
-            <a-select v-model="form.gender" placeholder="Pilih Gender">
-              <a-select-option value="M"> Man </a-select-option>
-              <a-select-option value="F"> Female </a-select-option>
-            </a-select>
-          </a-form-model-item>
-          <h4 class="font-weight-bold mb-5 col-md-12">Informasi Details</h4>
-          <a-form-model-item
-            class="col-md-2 mt-n2"
-            has-feedback
-            label="UK"
-            prop="uk"
-          >
-            <a-select v-model="form.uk" placeholder="Pilih UK">
-              <a-select-option value="I"> I </a-select-option>
-              <a-select-option value="II"> II </a-select-option>
-              <a-select-option value="III"> III </a-select-option>
-            </a-select>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            has-feedback
-            prop="jabatan"
-            label="Jabatan"
-          >
-            <a-input
-              placeholder="Example: Cleaning Service"
-              allow-clear
+              :rules="passwordRules"
+              label="Status"
+              outlined
+              hint="example: Tetap Kontrak 3"
+              dense
+              background-color="white"
+              required
+            ></v-text-field>
+          </div>
+          <div class="field col-md-3 mt-n5">
+            <v-select
+              :items="items.gender"
+              v-model="form.gender"
+              label="Gender"
+              item-text="state"
+              item-value="abbr"
+              required
+              dense
+              background-color="white"
+              outlined
+            ></v-select>
+          </div>
+          <div class="field col-md-3 mt-n5">
+            <v-select
+              v-model="form.uk"
+              :items="items.uk"
+              label="UK"
+              required
+              dense
+              background-color="white"
+              outlined
+            ></v-select>
+          </div>
+          <h3 class="col-md-10 mb-4 mt-n4">Informasi Details</h3>
+          <div class="field col-md-4 mt-n5">
+            <v-text-field
               v-model="form.jabatan"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-3 mt-n2"
-            has-feedback
-            label="Gaji"
-            prop="gaji"
-          >
-            <a-input
-              prefix="Rp"
-              type="number"
-              placeholder="  ex 3000000"
-              allow-clear
-              @change="handlechange(form.uang_makan, form.gaji)"
+              :rules="nameRules"
+              outlined
+              required
+              dense
+              background-color="white"
+              label="Jabatan"
+            ></v-text-field>
+          </div>
+          <div class="field col-md-3 mt-n5">
+            <vuetify-money
               v-model="form.gaji"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            has-feedback
-            prop="uang_makan"
-            label="Uang Makan"
-          >
-            <a-input
-              prefix="Rp"
-              type="number"
-              placeholder="  ex 1000000"
-              allow-clear
-              @change="handlechange(form.uang_makan, form.gaji)"
+              label="Gaji"
+              required
+              v-bind:readonly="false"
+              v-bind:disabled="false"
+              v-bind:outlined="true"
+              v-bind:dense="true"
+              v-bind:valueWhenIsEmpty="''"
+              v-bind:options="options"
+            />
+          </div>
+          <div class="field col-md-3 mt-n5">
+            <vuetify-money
               v-model="form.uang_makan"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            has-feedback
-            label="Total Gaji + Uang Makan"
-          >
-            <a-input
-              prefix="Rp"
-              placeholder="  ex 1000000"
-              type="number"
-              readOnly
-              :value="form.gaji_total"
-              v-model="form.gaji_total"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-3 mt-n2"
-            has-feedback
-            label="BPJS Kesehatan"
-          >
-            <a-input
-              prefix="Rp"
-              placeholder="  ex 1000000"
-              allow-clear
-              type="number"
-              v-model="form.bpjs_kesehatan"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            has-feedback
-            label="BPJS Ketenaga Kerjaan"
-          >
-            <a-input
-              prefix="Rp"
-              v-model="form.bpjs_tenagakerja"
-              type="number"
-              placeholder="  ex 1230000"
-              allow-clear
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-3 mt-n2"
-            has-feedback
-            label="Status BPJS Kesehatan"
-          >
-            <a-select
-              v-model="form.status_kesehatan"
-              default-value="Belum"
-              placeholder="Default belum"
-            >
-              <a-select-option value="Belum" selected> Belum </a-select-option>
-              <a-select-option value="Sudah"> Sudah </a-select-option>
-            </a-select>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-3 mt-n2"
-            label="Status BPJS KetenagaKerjaan"
-            has-feedback
-          >
-            <a-select
-              default-value="Belum"
-              v-model="form.status_tenagakerja"
-              placeholder="Default belum"
-            >
-              <a-select-option value="Belum"> Belum </a-select-option>
-              <a-select-option value="Sudah"> Sudah </a-select-option>
-            </a-select>
-          </a-form-model-item>
-          <h4 class="font-weight-bold mb-5 col-md-12">Bank Account</h4>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            has-feedback
-            label="NIK"
-            prop="nik"
-          >
-            <a-input
-              placeholder="ex 1234567890"
-              allow-clear
-              type="number"
-              v-model="form.nik"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item class="col-md-4 mt-n2" has-feedback label="No ID">
-            <a-input
-              placeholder="ex 1234567890"
-              allow-clear
-              type="number"
-              v-model="form.no_id"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-2 mt-n2"
-            has-feedback
-            label="Tipe ID"
-          >
-            <a-select v-model="form.tipe_id" default-value="KTP">
-              <a-select-option value="KTP"> KTP </a-select-option>
-              <a-select-option value="SIM"> SIM </a-select-option>
-            </a-select>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            has-feedback
-            label="Nama Pada Rekening"
-          >
-            <a-input
-              :placeholder="'ex ' + form.nama"
-              allow-clear
-              v-model="form.nama_rekening"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-4 mt-n2"
-            has-feedback
-            label="No Rekening"
-          >
-            <a-input
-              placeholder="ex 1234567890"
-              allow-clear
-              type="number"
-              v-model="form.no_rekening"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item class="col-md-4 mt-n2" has-feedback label="CIF">
-            <a-input
-              placeholder="ex 1234567890"
-              allow-clear
-              type="number"
-              v-model="form.cif"
-            ></a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            class="col-md-5 mt-n2"
-            has-feedback
-            label="Nama Perusahaan"
-          >
-            <a-input
-              allow-clear
-              type="text"
-              v-model="form.nama_perusahaan"
-            ></a-input>
-          </a-form-model-item>
-        </a-form-model>
+              label="Uang Makan"
+              required
+              v-bind:readonly="false"
+              v-bind:disabled="false"
+              v-bind:outlined="true"
+              v-bind:dense="true"
+              v-bind:valueWhenIsEmpty="''"
+              v-bind:options="options"
+            />
+          </div>
+          <p>{{ form.gaji }}</p>
+        </v-form>
       </div>
       <div class="d-block d-lg-none d-md-none d-xl-none col-md-3 pr-4">
         <a-button type="primary" block class="mt-1" @click.native="clickSave">
@@ -348,12 +181,25 @@
 </template>
 
 <script>
+import model from "../../singleton/index";
 import { mapActions } from "vuex";
 export default {
   name: "tambah_karyawan",
   data() {
     return {
-      collapse: true,
+      show: false,
+      options: {
+        prefix: "Rp. ",
+        length: 9,
+        precision: 0,
+      },
+      items: {
+        gender: [
+          { state: "Man", abbr: "M" },
+          { state: "Female", abbr: "F" },
+        ],
+        uk: ["I", "II", "III"],
+      },
       form: {
         token: null,
         nama: "",
@@ -465,7 +311,9 @@ export default {
       },
     };
   },
-  mounted() {},
+  mounted() {
+    model.users("upload Users");
+  },
   methods: {
     ...mapActions({
       addData: "newkaryawan",
@@ -479,15 +327,23 @@ export default {
       this.form.gaji_total = sumi;
     },
     clickSave() {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          this.form.token = this.$store.getters.getData.token;
-          this.addData(this.form);
-          this.$refs.form.resetFields();
-        } else {
-          return false;
-        }
-      });
+      console.log(this.form.nama_panggilan);
+      // this.$refs.form.validate((valid) => {
+      //   if (valid) {
+      //     this.form.token = this.$store.getters.getData.token;
+      //     this.addData(this.form);
+      //     this.$refs.form.resetFields();
+      //   } else {
+      //     return false;
+      //   }
+      // });
+    },
+  },
+  filters: {
+    capitalize: function (value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
     },
   },
 };
@@ -503,17 +359,13 @@ export default {
     span {
       color: red;
     }
+    .mt-2,
+    .mt-1 {
+      font-size: 13px;
+    }
   }
   .ic {
     cursor: pointer;
-  }
-}
-.mt-n2 {
-  margin-right: 15px !important;
-}
-@media screen and (max-widht: 700px) {
-  .mt-n2 {
-    margin-right: 0 !important;
   }
 }
 </style>

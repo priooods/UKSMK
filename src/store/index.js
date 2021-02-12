@@ -2,8 +2,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import Vue from 'vue';
 import createPersistedState from 'vuex-persistedstate';
-import SecureLS from "secure-ls";
-import { notification } from 'ant-design-vue';
+// import SecureLS from "secure-ls";
 import router from '../router/index';
 
 Vue.use(Vuex);
@@ -11,25 +10,25 @@ const instance = axios.create({
     baseURL: "https://digitalsystemindo.com/api/v1/"
   });
 
-const secureLS = new SecureLS({
-    encodingType: 'aes',
-    encryptionSecret: 'token'
-  });
+// const secureLS = new SecureLS({
+//     encodingType: 'aes',
+//     encryptionSecret: 'token'
+//   });
 
 const res = createPersistedState({
-    key: 'res',
-    paths: ['response','usersData', 'karyawanBaru','karyawanUser'],
-    storage: {
-        getItem: (key) => secureLS.get(key),
-        setItem: (key, value) => secureLS.set(key, value),
-        removeItem: (key) => secureLS.remove(key),
-      },
+    key: 'data',
+    paths: ['response','myprofile'],
+    // storage: {
+    //     getItem: (key) => localStorage.getItem(key),
+    //     setItem: (key, value) => localStorage.setItem(key, value),
+    //     removeItem: (key) => localStorage.removeItem(key),
+    //   },
 });
 
 
 export default new Vuex.Store({
     state:{
-        response: null ,
+        response: [] ,
         urlImages: 'https://digitalsystemindo.com/api/public/',
         loginForm: [],
         karyawanBaru: null,
@@ -59,18 +58,27 @@ export default new Vuex.Store({
     },
     actions:{
         async login({commit}){
+            const loading = this._vm.$vs.loading({
+                text: 'Loading...'
+              })
             await instance.post('login',this.state.loginForm).then((data)=>{
-                this.state.response = data.data;
-                if(this.state.response.error_code == 1){
-                    return notification.error({
-                        message: "Ooops.. Failure Log in !",
-                        placement: 'topLeft',
-                        description: "Opps... Login gagal ! Periksa kembali account anda"})
+                if(data.data.error_code == 1){
+                    loading.close();
+                    return this._vm.$vs.notification({
+                        color: 'danger',
+                        duration: 6000,
+                        position: 'top-left',
+                        title: 'Opps... Login Failure !',
+                        text: 'Account yang anda masukan tidak ditemukan ! Pastikan anda memasukan nama dan password yang benar'
+                      })
+                } else{
+                    this.state.response = data.data;
+                    commit('log', data.data);
+                    loading.close();
+                    router.push({ path: "home" }, () => {
+                        this.dispatch("myprofile");
+                    });
                 }
-                commit('log', this.state.response);
-                return router.push({ path: "home" }, () => {
-                    this.dispatch("myprofile");
-                  });
             }).catch(err=>{
                 console.log(err);
             });
@@ -87,29 +95,23 @@ export default new Vuex.Store({
         async newkaryawan({commit}, body){
             await instance.post('register',body).then((data)=>{
                 this.state.karyawanBaru = data.data;
-                if (data.data.error_code == 1) {
-                    return notification.error({
-                        message: "Ooops.. Failure Add Data !",
-                        placement: 'topLeft',
-                        description: "Opps... Data baru gagal ditambahkan ! periksa kembali data anda"})
-                } else{
-                    notification.success({
-                        message: "Data karyawan baru berhasil ditambahkan !",
-                        placement: 'topRight',
-                        description: "Karyawan baru berhasil ditambahkan, kembali ke halaman karyawan untuk melihat data terbaru "})
-                    commit('kar', this.state.karyawanBaru )
+                // if (data.data.error_code == 1) {
                     
-                }
+                // } else{
+                //     commit('kar', this.state.karyawanBaru )
+                    
+                // }
+                commit('kar', this.state.karyawanBaru )
             }).catch(err=>{
                 console.log(err);
             });
         },
         async allUsers({commit}){
             await instance.post('alluser',{token: this.state.response.token}).then((data)=>{
-                this.state.karyawanUser = data.data.data;
-                commit('all', this.state.karyawanUser)
-            }).catch(err=>{
-                console.log(err);
+                commit('all', data.data.data)
+                return true;
+            }).catch(()=>{
+                return false;
             });
         },
         async find({commit},id){
@@ -130,52 +132,51 @@ export default new Vuex.Store({
         },
         async updateuser(id,form){
             await instance.post('updateuser/' + id,form).then((data)=>{
-                if(data.data.error_code == 1){
-                    return notification.error({
-                        message: "Ooops.. Failure Update Data !",
-                        placement: 'topLeft',
-                        description: "Opps... Data karyawan gagal ditambahkan ! periksa kembali internet anda atau data karyawan"})
-                } else{
-                    return notification.success({
-                        message: "Data karyawan berhasil di update !",
-                        placement: 'topRight',
-                        description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
-                }
+                data
+                // if(data.data.error_code == 1){
+                //     } else{
+                //     return notification.success({
+                //         message: "Data karyawan berhasil di update !",
+                //         placement: 'topRight',
+                //         description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
+                // }
             }).catch(err=>{
                 console.log(err);
             });
         },
         async deleteUser(id){
             await instance.post('deleteuser/' + id,{token: this.state.response.token}).then((data)=>{
-                if(data.data.error_code == 1){
-                    return notification.error({
-                        message: "Ooops.. Failure Update Data !",
-                        placement: 'topLeft',
-                        description: "Opps... Data karyawan gagal ditambahkan ! periksa kembali internet anda atau data karyawan"})
-                } else{
-                    return notification.success({
-                        message: "Data karyawan berhasil di update !",
-                        placement: 'topRight',
-                        description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
-                }
+                // if(data.data.error_code == 1){
+                //     return notification.error({
+                //         message: "Ooops.. Failure Update Data !",
+                //         placement: 'topLeft',
+                //         description: "Opps... Data karyawan gagal ditambahkan ! periksa kembali internet anda atau data karyawan"})
+                // } else{
+                //     return notification.success({
+                //         message: "Data karyawan berhasil di update !",
+                //         placement: 'topRight',
+                //         description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
+                // }
+                data
             }).catch(err=>{
                 console.log(err);
             });
         },
         async findoperator(){
             await instance.post('findoperator/',{token: this.state.response.token}).then((data)=>{
-                if(data.data.error_code == 1){
-                    return notification.error({
-                        message: "Ooops.. Failure Update Data !",
-                        placement: 'topLeft',
-                        description: "Opps... Data karyawan gagal ditambahkan ! periksa kembali internet anda atau data karyawan"})
-                } else{
-                    // commit.
-                    return notification.success({
-                        message: "Data karyawan berhasil di update !",
-                        placement: 'topRight',
-                        description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
-                }
+                // if(data.data.error_code == 1){
+                //     return notification.error({
+                //         message: "Ooops.. Failure Update Data !",
+                //         placement: 'topLeft',
+                //         description: "Opps... Data karyawan gagal ditambahkan ! periksa kembali internet anda atau data karyawan"})
+                // } else{
+                //     // commit.
+                //     return notification.success({
+                //         message: "Data karyawan berhasil di update !",
+                //         placement: 'topRight',
+                //         description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
+                // }
+                data
             }).catch(err=>{
                 console.log(err);
             });

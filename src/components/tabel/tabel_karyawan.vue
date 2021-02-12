@@ -37,9 +37,11 @@
 
 <script>
 export default {
+  props: {
+    users: null,
+  },
   data() {
     return {
-      users: [],
       columns: [
         {
           title: "No",
@@ -141,9 +143,9 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.users = this.semuaKaryawan;
-  },
+  // async created() {
+  //   this.users = await this.semuaKaryawan;
+  // },
   methods: {
     clickRow(records) {
       return {
@@ -155,15 +157,15 @@ export default {
         },
       };
     },
-    checkactive() {
-      return this.active;
+    checkactive(val) {
+      return (this.active = val);
     },
   },
-  computed: {
-    semuaKaryawan() {
-      return this.$store.state.karyawanUser;
-    },
-  },
+  // computed: {
+  //   semuaKaryawan() {
+  //     return this.$store.state.karyawanUser;
+  //   },
+  // },
 };
 </script>
 

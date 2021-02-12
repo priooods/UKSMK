@@ -1,29 +1,41 @@
 <template>
-  <div class="lt d-flex justify-content-center align-items-center">
-    <div class="box">
-      <h1 class="mb-5 font-weight-bold">UKSMK</h1>
-      <div class="form">
-        <vs-input v-model="form.nama" label="Username" icon-after>
-          <template #icon>
-            <i class="bx bx-user"></i>
-          </template>
-        </vs-input>
-        <vs-input
-          class="pass"
-          type="password"
-          v-model="form.password"
-          label="Password"
-          :visiblePassword="visible"
-          icon-after
-          @click-icon="visible = !visible"
-        >
-          <template #icon>
-            <i v-if="!visible" class="bx bx-hide"></i>
-            <i v-else class="bx bx-show-alt"></i>
-          </template>
-        </vs-input>
+  <div class="lt container">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-md-3 p-lg-0 p-sm-0 p-md-0">
+        <h5 class="mb-5 font-weight-bold" style="color: #195bff">UKSMK</h5>
+        <h4 class="font-weight-bold">Log in to your account</h4>
+        <p class="dsc">
+          Masukan nama lengkap dan password anda dengan benar. Hubungi Operator
+          apabila anda melupakan detail account anda
+        </p>
+        <template>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-text-field
+              v-model="form.nama"
+              :rules="nameRules"
+              class="field"
+              outlined
+              label="Nama Lengkap"
+              dense
+            ></v-text-field>
+
+            <v-text-field
+              v-model="form.password"
+              :rules="passwordRules"
+              label="Password"
+              outlined
+              :type="show ? 'text' : 'password'"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show = !show"
+              dense
+              class="field"
+            ></v-text-field>
+          </v-form>
+          <v-btn class="mt-4" depressed color="primary" block @click="goLogin">
+            Login
+          </v-btn>
+        </template>
       </div>
-      <vs-button color="#21209c" v-on:click="goLogin()"> Masuk </vs-button>
     </div>
   </div>
 </template>
@@ -32,37 +44,23 @@
 export default {
   data() {
     return {
+      show: false,
       form: {
         nama: "",
         password: "",
       },
-      visible: false,
-      data: [],
-      router: null,
+      valid: false,
+      nameRules: [(v) => !!v || "Masukan nama anda"],
+      passwordRules: [(v) => !!v || "Masukan password anda"],
     };
   },
   methods: {
     goLogin() {
-      if (this.form.nama == "" || this.form.password == "") {
-        return this.openNotificationWithIcon(
-          "error",
-          "topLeft",
-          "Harap lengkapi Username dan Password anda untuk masuk dengan account anda"
-        );
+      if (!this.$refs.form.validate()) {
+        return false;
       }
       this.$store.state.loginForm = this.form;
-      this.$store.dispatch("login");
-
-      // return this.$router.push({ path: "home" }, () => {
-      //   this.$store.dispatch("myprofile");
-      // });
-    },
-    openNotificationWithIcon(type, placement, description) {
-      this.$notification[type]({
-        message: "Ooops.. Failure Log in !",
-        placement,
-        description,
-      });
+      return this.$store.dispatch("login");
     },
   },
 };
@@ -71,18 +69,13 @@ export default {
 <style lang="scss">
 .lt {
   height: 100vh;
-  h1 {
-    text-align: center;
+  .dsc {
+    margin-bottom: 30px;
+    margin-top: 15px;
+    font-size: 13px;
   }
-  .form,
-  .vs-input,
-  .vs-button {
-    font-size: 14px;
-    width: 250px;
-  }
-  .pass,
-  .vs-button {
-    margin-top: 35px;
+  .field {
+    font-size: 13px;
   }
 }
 </style>
