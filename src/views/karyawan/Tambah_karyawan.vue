@@ -160,8 +160,22 @@
               v-bind:options="options"
             />
           </div>
-          <p>{{ form.gaji }}</p>
+          <div class="field col-md-3 mt-n5">
+            <vuetify-money
+              v-model="form.gaji_total"
+              label="Gaji Total"
+              :value="total"
+              required
+              v-bind:readonly="true"
+              v-bind:disabled="false"
+              v-bind:outlined="true"
+              v-bind:dense="true"
+              v-bind:valueWhenIsEmpty="''"
+              v-bind:options="options"
+            />
+          </div>
         </v-form>
+        <p>{{ form.gaji_total }}</p>
       </div>
       <div class="d-block d-lg-none d-md-none d-xl-none col-md-3 pr-4">
         <a-button type="primary" block class="mt-1" @click.native="clickSave">
@@ -188,6 +202,7 @@ export default {
   data() {
     return {
       show: false,
+      collapse: true,
       options: {
         prefix: "Rp. ",
         length: 9,
@@ -311,10 +326,20 @@ export default {
       },
     };
   },
+  computed: {
+    // total: () => {
+    //   this.form.gaji_total =
+    //     parseInt(this.form.gaji) + parseInt(this.form.uang_makan);
+    // },
+  },
   mounted() {
     model.users("upload Users");
   },
   methods: {
+    total() {
+      this.form.gaji_total =
+        parseInt(this.form.gaji) + parseInt(this.form.uang_makan);
+    },
     ...mapActions({
       addData: "newkaryawan",
       find: "find",
