@@ -1,175 +1,118 @@
 <template>
   <div>
-    <h1>Hallo World</h1>
-    <!-- <a-table
-      :columns="columns"
-      :scroll="{ x: 1300 }"
-      bordered
-      :customRow="clickRow"
-      :data-source="users"
-      :row-key="
-        (record, index) => {
-          return index;
-        }
-      "
-      class="tabs"
-      :pagination="{ pageSize: 10 }"
-    >
-      <span slot="customTitle"></span>
-      <p slot="no"></p>
-      <p slot="nik" slot-scope="text" prop="nik">{{ text.toUpperCase() }}</p>
-      <p slot="nama" slot-scope="text" prop="nama">
-        {{ text.toUpperCase() }}
-      </p>
-      <p slot="jabatan" slot-scope="text">{{ text.toUpperCase() }}</p>
-      <p slot="status" slot-scope="text">{{ text.toUpperCase() }}</p>
-      <p slot="gaji" slot-scope="text">{{ text | currency("Rp. ") }}</p>
-      <p slot="bpjs_kesehatan" slot-scope="text">
-        {{ text | currency("Rp. ") }}
-      </p>
-      <p slot="bpjs_tenagakerja" slot-scope="text">
-        {{ text | currency("Rp. ") }}
-      </p>
-      <p slot="uang_makan" slot-scope="text">{{ text | currency("Rp. ") }}</p>
-      <p slot="gaji_total" slot-scope="text">{{ text | currency("Rp. ") }}</p>
-    </a-table> -->
+    <v-card>
+      <v-card-title>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Cari Data Karyawan"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        :items="itemsWithIndex"
+        class="row-pointer"
+        :search="search"
+        :headers="headers"
+        @click:row="clickRow"
+      >
+        <template v-slot:[`item.index`]="{ item }">
+          <span class="tx">{{ item.index }}</span>
+        </template>
+        <template v-slot:[`item.nik`]="{ item }">
+          <span class="tx">{{ item.nik }}</span>
+        </template>
+        <template v-slot:[`item.nama`]="{ item }">
+          <span class="tx">{{ item.nama.toUpperCase() }}</span>
+        </template>
+        <template v-slot:[`item.jabatan`]="{ item }">
+          <span class="tx">{{ item.jabatan.toUpperCase() }}</span>
+        </template>
+        <template v-slot:[`item.status`]="{ item }">
+          <span class="tx">{{ item.status.toUpperCase() }}</span>
+        </template>
+        <template v-slot:[`item.gaji`]="{ item }">
+          <span class="tx">{{ item.gaji | currency("Rp. ") }}</span>
+        </template>
+        <template v-slot:[`item.uang_makan`]="{ item }">
+          <span class="tx">{{ item.uang_makan | currency("Rp. ") }}</span>
+        </template>
+        <template v-slot:[`item.bpjs_kesehatan`]="{ item }">
+          <span class="tx">{{ item.bpjs_kesehatan | currency("Rp. ") }}</span>
+        </template>
+        <template v-slot:[`item.bpjs_tenagakerja`]="{ item }">
+          <span class="tx">{{ item.bpjs_tenagakerja | currency("Rp. ") }}</span>
+        </template>
+        <template v-slot:[`item.gaji_total`]="{ item }">
+          <span class="tx">{{ item.gaji_total | currency("Rp. ") }}</span>
+        </template>
+      </v-data-table>
+    </v-card>
   </div>
 </template>
 
 <script>
+import Vue2Filters from "vue2-filters";
 export default {
-  // props: {
-  //   users: null,
-  // },
+  mixins: [Vue2Filters.mixin],
   data() {
     return {
-      data: null,
-      columns: [
+      search: "",
+      headers: [
         {
-          title: "No",
-          key: "no",
-          width: 50,
-          fixed: "left",
-          slots: { title: "customTitle" },
-          scopedSlots: { customRender: "no" },
-          align: "center",
-          customRender: (value, row, index) => {
-            return index + 1;
-          },
+          text: "No",
+          align: "start",
+          filterable: false,
+          sortable: false,
+          value: "index",
         },
-        {
-          title: "NIK",
-          dataIndex: "nik",
-          width: 150,
-          align: "center",
-          key: "nik",
-          slots: { title: "customTitle" },
-          scopedSlots: { customRender: "nik" },
-        },
-        {
-          title: "Nama Lengkap",
-          width: 150,
-          dataIndex: "nama",
-          slots: { title: "customTitle" },
-          key: "nama",
-          scopedSlots: {
-            customRender: "nama",
-          },
-        },
-        {
-          title: "Jabatan",
-          key: "jabatan",
-          width: 200,
-          slots: { title: "customTitle" },
-          dataIndex: "jabatan",
-          scopedSlots: {
-            customRender: "jabatan",
-          },
-        },
-        {
-          title: "Status",
-          key: "status",
-          ellipsis: true,
-          dataIndex: "status",
-          slots: { title: "customTitle" },
-          scopedSlots: { customRender: "status" },
-        },
-        {
-          title: "Gaji Diterima",
-          dataIndex: "gaji",
-          align: "center",
-          slots: { title: "customTitle" },
-          key: "gaji",
-          scopedSlots: { customRender: "gaji" },
-        },
-        {
-          title: "BPJS Kesehatan",
-          key: "bpjs_kesehatan",
-          align: "center",
-          slots: { title: "customTitle" },
-          dataIndex: "bpjs_kesehatan",
-          scopedSlots: {
-            customRender: "bpjs_kesehatan",
-          },
-        },
-        {
-          title: "BPJS TenagaKerja",
-          key: "bpjs_tenagakerja",
-          slots: { title: "customTitle" },
-          dataIndex: "bpjs_tenagakerja",
-          align: "center",
-          scopedSlots: {
-            customRender: "bpjs_tenagakerja",
-          },
-        },
-        {
-          title: "Uang Makan",
-          key: "uang_makan",
-          align: "center",
-          slots: { title: "customTitle" },
-          dataIndex: "uang_makan",
-          scopedSlots: {
-            customRender: "uang_makan",
-          },
-        },
-        {
-          title: "Gaji Total",
-          align: "center",
-          key: "gaji_total",
-          dataIndex: "gaji_total",
-          slots: { title: "customTitle" },
-          scopedSlots: {
-            customRender: "gaji_total",
-          },
-        },
+        { text: "Nik", value: "nik" },
+        { text: "Nama Lengkap", value: "nama" },
+        { text: "Jabatan", value: "jabatan" },
+        { text: "Status", value: "status" },
+        { text: "Gaji", value: "gaji" },
+        { text: "Uang Makan", value: "uang_makan", sortable: false },
+        { text: "BPJS Kesehatan", value: "bpjs_kesehatan" },
+        { text: "BPJS TenagaKerja", value: "bpjs_tenagakerja" },
+        { text: "Total", value: "gaji_total" },
       ],
     };
   },
-  // async created() {
-  //   this.users = await this.semuaKaryawan;
-  // },
   methods: {
-    clickRow(records) {
-      return {
-        props: { val: null },
-        on: {
-          click: () => {
-            console.log(records);
-          },
-        },
-      };
+    clickRow(item) {
+      const loading = this.$vs.loading({
+        text: "Sedang Memuat Data...",
+        background: "#000000",
+        color: "#f6f6f6",
+      });
+      setTimeout(() => {
+        loading.close();
+        this.$router.push({ path: "karyawan/details" }, () => {
+          this.$store.dispatch("find", item.id);
+        });
+      }, 5000);
     },
     checkactive(val) {
       return (this.active = val);
     },
   },
-  // computed: {
-  //   semuaKaryawan() {
-  //     return this.$store.state.karyawanUser;
-  //   },
-  // },
+  computed: {
+    itemsWithIndex() {
+      return this.$store.state.karyawanUser.map((items, index) => ({
+        ...items,
+        index: index + 1,
+      }));
+    },
+  },
 };
 </script>
 
-<style>
+<style lang="scss">
+.row-pointer > .v-data-table__wrapper > table > tbody > tr :hover {
+  cursor: pointer;
+}
+.tx {
+  font-size: 11px;
+}
 </style>

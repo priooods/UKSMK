@@ -3,10 +3,11 @@ import VueRouter from 'vue-router'
 import BaseHome from '../views/BaseHome.vue'
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue';
-import Karyawan from '../components/tabel/tabel_karyawan.vue';
+import Karyawan from '../views/karyawan/Karyawan.vue';
 import TambahKaryawan from '../views/karyawan/Tambah_karyawan.vue'
+import KaryawanDetail from '../views/karyawan/Details.vue'
 import store from '../store/index';
-// import error_page from '../views/Error_page.vue';
+import error_page from '../views/Error_page.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -14,7 +15,6 @@ const routes = [
     path: '/',
     name: 'Login',
     component: Login,
-    meta: {title: 'Login - UKSMK'},
     beforeEnter: (to, from, next) => {
       if(window.localStorage.getItem("res") != null){
         window.localStorage.removeItem("res");
@@ -29,22 +29,23 @@ const routes = [
       if(store.getters.getData == undefined){
         next({ name: "Login" })
       } else
+      store.dispatch(`allUsers`);
+      store.dispatch(`byukOne`);
+      store.dispatch(`byukTwo`);
+      store.dispatch(`byukThree`);
       next();
     },
     children: [
       { 
         path: '/karyawan', 
-        component: Karyawan, 
-        meta: {title: 'Karyawan - UKSMK'},
-        // beforeEnter: (to, from, next) => {
-        //   store.dispatch("allUsers");
-        //   next();
-        // }
+        component: Karyawan,
       },   
-      { path: '/', component: Home, meta: {title: 'Dashboard - UKSMK'} },
-      { path: '/karyawan/add', component: TambahKaryawan, meta: {title: 'Karyawan - UKSMK'} }
+      { path: '/', component: Home },
+      { path: '/karyawan/add', component: TambahKaryawan },
+      { path: '/karyawan/details', component: KaryawanDetail }
     ]
   },
+  { path: '/dev', component: error_page },
 ]
 
 const router = new VueRouter({

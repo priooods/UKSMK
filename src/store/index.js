@@ -32,10 +32,14 @@ export default new Vuex.Store({
         urlImages: 'https://digitalsystemindo.com/api/public/',
         loginForm: [],
         karyawanBaru: null,
-        userDetail: null,
+        userDetail: [],
         users: [],
         myprofile: null,
-        byuk: null,
+        ukone: [],
+        uktwo: [],
+        ukthree: [],
+        byuk: [],
+        karyawanForm: [],
         karyawanUser: []
     },
     plugins:[res],
@@ -54,6 +58,15 @@ export default new Vuex.Store({
         },
         id(state, userDetail){
             state.userDetail = userDetail;
+        },
+        ukone(state, payload){
+            state.ukone == payload;
+        },
+        uktwo(state,payload){
+            state.uktwo == payload;
+        },
+        ukthree(state, payload){
+            state.ukthree = payload;
         }
     },
     actions:{
@@ -92,24 +105,30 @@ export default new Vuex.Store({
                 console.log(err);
             })
         },
-        async newkaryawan({commit}, body){
-            await instance.post('register',body).then((data)=>{
-                this.state.karyawanBaru = data.data;
-                // if (data.data.error_code == 1) {
-                    
-                // } else{
-                //     commit('kar', this.state.karyawanBaru )
-                    
-                // }
+        async newkaryawan({commit}){
+            const loading = this._vm.$vs.loading({
+                text: 'Loading...'
+              })
+            await instance.post('register',this.state.karyawanForm).then((data)=>{
+                if(data.data.error_code == 1){
+                    loading.close();
+                    return this._vm.$vs.notification({
+                        color: 'danger',
+                        duration: 6000,
+                        position: 'top-left',
+                        title: 'Opps... Gagal menambahkan Karyawan !',
+                        text: data.data.error_message
+                      })
+                }
                 commit('kar', this.state.karyawanBaru )
+                loading.close();
             }).catch(err=>{
                 console.log(err);
             });
         },
         async allUsers({commit}){
             await instance.post('alluser',{token: this.state.response.token}).then((data)=>{
-                this.state.karyawanUser = data.data;
-                console.log(data.data);
+                this.state.karyawanUser = data.data.data;
                 commit('all', data.data.data)
                 return true;
             }).catch(()=>{
@@ -124,10 +143,26 @@ export default new Vuex.Store({
                 console.log(err);
             });
         },
-        async byuk({commit},uk){
-            await instance.post('byuk',{token: this.state.response.token, uk: uk}).then((data)=>{
-                this.state.karyawanUser = data.data.data;
-                commit('all', this.state.karyawanUser);
+        async byukOne({commit}){
+            await instance.post('byuk',{token: this.state.response.token, uk: 'I'}).then((data)=>{
+                this.state.ukone = data.data.data;
+                commit('ukone', data.data.data);
+            }).catch(err=>{
+                console.log(err);
+            });
+        },
+        async byukTwo({commit}){
+            await instance.post('byuk',{token: this.state.response.token, uk: 'II'}).then((data)=>{
+                this.state.uktwo = data.data.data;
+                commit('uktwo', data.data.data);
+            }).catch(err=>{
+                console.log(err);
+            });
+        },
+        async byukThree({commit}){
+            await instance.post('byuk',{token: this.state.response.token, uk: 'III'}).then((data)=>{
+                this.state.ukthree = data.data.data;
+                commit('ukthree', data.data.data);
             }).catch(err=>{
                 console.log(err);
             });
