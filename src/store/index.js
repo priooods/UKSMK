@@ -17,7 +17,8 @@ const instance = axios.create({
 
 const res = createPersistedState({
     key: 'data',
-    paths: ['response','myprofile'],
+    paths: ['response','myprofile', 'userDetail', 'ukone', 'uktwo',
+     'ukthree', 'karyawanBaru', 'karyawanUser'],
     // storage: {
     //     getItem: (key) => localStorage.getItem(key),
     //     setItem: (key, value) => localStorage.setItem(key, value),
@@ -138,7 +139,7 @@ export default new Vuex.Store({
         async find({commit},id){
             await instance.post('finduser/'+ id,{token: this.state.response.token}).then((data)=>{
                 this.state.userDetail = data.data.data;
-                commit('id', this.state.userDetail);
+                commit('id', data.data.data);
             }).catch(err=>{
                 console.log(err);
             });
@@ -223,6 +224,7 @@ export default new Vuex.Store({
         getData: state => state.response,
         users: state => state.myprofile,
         allkaryawan: state => state.karyawanUser,
+        userDetail: state => state.userDetail,
         karyawanTerbaru: state => state.karyawanBaru
     },
     modules:{},

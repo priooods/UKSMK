@@ -39,7 +39,7 @@ const routes = [
       { 
         path: '/karyawan', 
         component: Karyawan,
-      },   
+      }, 
       { path: '/', component: Home },
       { path: '/karyawan/add', component: TambahKaryawan },
       { path: '/karyawan/details', component: KaryawanDetail }

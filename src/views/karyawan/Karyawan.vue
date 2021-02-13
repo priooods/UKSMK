@@ -94,7 +94,7 @@
           Tambah Karyawan Baru
         </vs-button>
       </div>
-      <tabelkaryawan />
+      <tabelkaryawan ref="tabel" />
     </div>
   </div>
 </template>
