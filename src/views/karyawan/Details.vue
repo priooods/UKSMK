@@ -51,38 +51,38 @@
           cols="12"
           sm="6"
         >
-      <v-text-field
+      <vuetify-money
         :value="$store.state.userDetail.gaji"
         :readonly="true"
         label="Gaji"
-      ></v-text-field>
+      ></vuetify-money>
         </v-col>
         <v-col
           cols="12"
           sm="6"
         >
-      <v-text-field
+      <vuetify-money
         :value="$store.state.userDetail.uang_makan"
         :readonly="true"
         label="Uang Makan"
-      ></v-text-field>
+      ></vuetify-money>
         </v-col>
       </v-row>
-      <v-text-field
+      <vuetify-money
         :value="$store.state.userDetail.bpjs_kesehatan"
         :readonly="true"
         label="BPJS Kesehatan"
-      ></v-text-field>
-      <v-text-field
+      ></vuetify-money>
+      <vuetify-money
         :value="$store.state.userDetail.bpjs_tenagakerja"
         :readonly="true"
         label="BPJS Ketenaga Kerjaan"
-      ></v-text-field>
-      <v-text-field
+      ></vuetify-money>
+      <vuetify-money
         :value="$store.state.userDetail.gaji_total"
         :readonly="true"
         label="BPJS Total"
-      ></v-text-field>
+      ></vuetify-money>
     </v-card-text>
   </v-card>
 </template>
