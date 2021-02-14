@@ -368,7 +368,7 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-  name: "tambah_karyawan",
+  name: "Add",
   data() {
     return {
       show: false,

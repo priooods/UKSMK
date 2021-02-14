@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  data: () => ({ value: 1 }),
+  data: () => ({ value: 0 }),
 };
 </script>
 

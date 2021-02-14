@@ -8,6 +8,8 @@ import TambahKaryawan from '../views/karyawan/Tambah_karyawan.vue'
 import KaryawanDetail from '../views/karyawan/Details.vue'
 import store from '../store/index';
 import error_page from '../views/Error_page.vue';
+import notfound from '../views/Not_Found.vue';
+import salary from '../views/salary/Salary.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,6 +27,7 @@ const routes = [
   {
     path: '/home',
     component: BaseHome,
+    name: 'BaseHome',
     beforeEnter: (to,from,next) => {
       if(store.getters.getData == undefined){
         next({ name: "Login" })
@@ -39,18 +42,21 @@ const routes = [
       { 
         path: '/karyawan', 
         component: Karyawan,
+        name: 'karyawan'
       }, 
-      { path: '/', component: Home },
-      { path: '/karyawan/add', component: TambahKaryawan },
-      { path: '/karyawan/details', component: KaryawanDetail }
+      { path: '/homepage', component: Home, name: 'Home' },
+      { path: '/salary', component: salary, name: 'Salary' },
+      { path: '/karyawan/add', component: TambahKaryawan, name: 'Add' },
+      { path: '/karyawan/details', component: KaryawanDetail, name: 'Details' }
     ]
   },
-  { path: '/dev', component: error_page },
+  { path: '/dev', component: error_page, name: 'Summary' },
+  { path: '*', component: notfound, name: 'NotFound' }
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/mlbsystem',
   routes,
   linkActiveClass: "active", 
   linkExactActiveClass: "active",

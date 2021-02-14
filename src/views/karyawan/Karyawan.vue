@@ -105,6 +105,7 @@ import tabelkaryawan from "../../components/tabel/tabel_karyawan";
 export default {
   components: { tabelkaryawan },
   mixins: [Vue2Filters.mixin],
+  name: "karyawan",
   data() {
     return {
       cek: "Semua Karyawan",

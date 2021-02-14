@@ -89,7 +89,7 @@ export default new Vuex.Store({
                     this.state.response = data.data;
                     commit('log', data.data);
                     loading.close();
-                    router.push({ path: "home" }, () => {
+                    router.push({ path: "homepage" }, () => {
                         this.dispatch("myprofile");
                     });
                 }

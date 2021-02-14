@@ -24,7 +24,7 @@
           <span class="tx">{{ item.nik }}</span>
         </template>
         <template v-slot:[`item.nama`]="{ item }">
-          <span class="tx">{{ item.nama.toUpperCase() }}</span>
+          <span class="tx font-weight-bold">{{ item.nama.toUpperCase() }}</span>
         </template>
         <template v-slot:[`item.jabatan`]="{ item }">
           <span class="tx">{{ item.jabatan.toUpperCase() }}</span>
@@ -32,17 +32,17 @@
         <template v-slot:[`item.status`]="{ item }">
           <span class="tx">{{ item.status.toUpperCase() }}</span>
         </template>
+        <template v-slot:[`item.gender`]="{ item }">
+          <span class="tx">{{ item.gender.toUpperCase() }}</span>
+        </template>
+        <template v-slot:[`item.tanggal_lahir`]="{ item }">
+          <span class="tx">{{ item.tanggal_lahir }}</span>
+        </template>
         <template v-slot:[`item.gaji`]="{ item }">
           <span class="tx">{{ item.gaji | currency("Rp. ") }}</span>
         </template>
         <template v-slot:[`item.uang_makan`]="{ item }">
           <span class="tx">{{ item.uang_makan | currency("Rp. ") }}</span>
-        </template>
-        <template v-slot:[`item.bpjs_kesehatan`]="{ item }">
-          <span class="tx">{{ item.bpjs_kesehatan | currency("Rp. ") }}</span>
-        </template>
-        <template v-slot:[`item.bpjs_tenagakerja`]="{ item }">
-          <span class="tx">{{ item.bpjs_tenagakerja | currency("Rp. ") }}</span>
         </template>
         <template v-slot:[`item.gaji_total`]="{ item }">
           <span class="tx">{{ item.gaji_total | currency("Rp. ") }}</span>
@@ -66,16 +66,23 @@ export default {
           filterable: false,
           sortable: false,
           value: "index",
+          class: "head",
         },
-        { text: "Nik", value: "nik" },
-        { text: "Nama Lengkap", value: "nama" },
-        { text: "Jabatan", value: "jabatan" },
-        { text: "Status", value: "status" },
-        { text: "Gaji", value: "gaji" },
-        { text: "Uang Makan", value: "uang_makan", sortable: false },
-        { text: "BPJS Kesehatan", value: "bpjs_kesehatan" },
-        { text: "BPJS TenagaKerja", value: "bpjs_tenagakerja" },
-        { text: "Total", value: "gaji_total" },
+        { text: "Nik", value: "nik", class: "head" },
+        { text: "Nama Lengkap", value: "nama", class: "head" },
+        { text: "Jabatan", value: "jabatan", class: "head" },
+        { text: "Status", value: "status", class: "head" },
+        { text: "UK", value: "uk", class: "head", align: "center" },
+        { text: "Gender", value: "gender", class: "head", align: "center" },
+        {
+          text: "Tanggal Lahir",
+          class: "head",
+          value: "tanggal_lahir",
+          sortable: false,
+        },
+        { text: "Gaji", value: "gaji", class: "head" },
+        { text: "Uang Makan", value: "uang_makan", class: "head" },
+        { text: "Total", value: "gaji_total", class: "head" },
       ],
     };
   },
@@ -114,5 +121,9 @@ export default {
 }
 .tx {
   font-size: 11px;
+}
+.head {
+  background: #b6dde8;
+  font-weight: 800;
 }
 </style>

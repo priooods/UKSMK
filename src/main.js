@@ -18,6 +18,8 @@ import 'boxicons/css/boxicons.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import VueHtml2pdf from 'vue-html2pdf'
+Vue.use(VueHtml2pdf)
 Vue.use(VuetifyMoney);
 Vue.use(BootstrapVue)
 Vue.use(Vuex);

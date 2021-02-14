@@ -9,10 +9,10 @@
       </h5>
       <div class="route mr-auto">
         <div class="d-flex align-items-center justify-content-center">
-          <router-link to="/home" class="mr-3 ml-3">Home</router-link>
+          <router-link to="/homepage" class="mr-3 ml-3">Home</router-link>
           <router-link to="/karyawan" class="mr-3 ml-3">Karyawan</router-link>
           <router-link to="/dev" class="mr-3 ml-3">Invoice</router-link>
-          <router-link class="mr-3 ml-3" to="/dev">Salary</router-link>
+          <router-link class="mr-3 ml-3" to="/salary">Salary</router-link>
         </div>
       </div>
       <div class="end d-flex justify-content-end align-items-center">

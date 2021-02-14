@@ -13,7 +13,8 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
+#app,
+html {
   background: rgb(248, 248, 248);
 }
 .v-application--wrap {
