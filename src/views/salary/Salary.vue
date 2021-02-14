@@ -16,24 +16,6 @@
     </div>
     <div class="ln my-5"></div>
     <div class="mt-5 mb-5">
-      <div class="row py-5">
-        <div class="col-md-1 d-none d-md-block d-lg-block d-xl-block">
-          <img src="../../assets/logo_1.jpg" alt="log" />
-        </div>
-        <div class="col text-center text-uppercase ttl">
-          <h4 class="font-weight-bold">
-            DAFTAR BPJS KESEHATAN DAN KETENAGAKERJAAN KARYAWAN
-          </h4>
-          <h5 class="font-weight-bold">
-            KONTRAK TETAP TAMBAK UDANG VANNAME PT. UJUNG KULON SUKSES MAKMUR
-            ABADI
-          </h5>
-          <h5 class="font-weight-bold">BULAN {{ Bulan }}</h5>
-        </div>
-        <div class="col-md-1 d-none d-md-block d-lg-block d-xl-block cs">
-          <img src="../../assets/logo_2.png" alt="log" />
-        </div>
-      </div>
       <vue-html2pdf
         :show-layout="false"
         :float-layout="true"
@@ -45,14 +27,33 @@
         :manual-pagination="false"
         pdf-format="a4"
         pdf-orientation="landscape"
-        pdf-content-width="1300px"
+        pdf-content-width="100%"
         ref="html2Pdf"
         @beforeDownload="beforeDownload($event)"
       >
         <section slot="pdf-content">
+          <div class="row py-5">
+            <div class="col-md-1 d-none d-md-block d-lg-block d-xl-block">
+              <img src="../../assets/logo_1.jpg" alt="log" />
+            </div>
+            <div class="col text-center text-uppercase ttl">
+              <h4 class="font-weight-bold">
+                DAFTAR BPJS KESEHATAN DAN KETENAGAKERJAAN KARYAWAN
+              </h4>
+              <h5 class="font-weight-bold">
+                KONTRAK TETAP TAMBAK UDANG VANNAME PT. UJUNG KULON SUKSES MAKMUR
+                ABADI
+              </h5>
+              <h5 class="font-weight-bold">BULAN {{ Bulan }}</h5>
+            </div>
+            <div class="col-md-1 d-none d-md-block d-lg-block d-xl-block cs">
+              <img src="../../assets/logo_2.png" alt="log" />
+            </div>
+          </div>
           <tabelbpjs ref="tabpjs" id="tabpjs" />
         </section>
       </vue-html2pdf>
+      <!-- <tabelbpjs ref="tabpjs" id="tabpjs" /> -->
     </div>
   </div>
 </template>
@@ -86,7 +87,7 @@ export default {
           const totalPages = pdf.internal.getNumberOfPages();
           for (let i = 1; i <= totalPages; i++) {
             pdf.setPage(i);
-            pdf.setFontSize(8);
+            pdf.setFontSize(1);
             pdf.setTextColor(150);
             pdf.text(
               "Page " + i + " of " + totalPages,
