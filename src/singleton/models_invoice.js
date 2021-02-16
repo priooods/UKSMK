@@ -74,8 +74,6 @@ kerja_uk3 = store.state.ukthree.filter((user) => {
   });
 
 var bulans = moment.tz("Asia/Jakarta").format('MMM');
-
-
 var data = [
     {
         index: "A",
@@ -373,6 +371,78 @@ var data = [
         upah: null,
         jumlah: null,
     },
+    {
+        index: null,
+        uraian: null,
+        volume: null,
+        satuan: null,
+        bulan: null,
+        persen: null,
+        upah: null,
+        jumlah: null,
+    },
+    {
+        index: null,
+        uraian: null,
+        volume: null,
+        satuan: null,
+        bulan: null,
+        persen: null,
+        upah: null,
+        jumlah: null,
+    },
 ]
-
-export default data
+let subtotal1 = data[5].jumlah + data[11].jumlah + data[17].jumlah;
+let subtotal2 = (subtotal1 * 9/100 + (subtotal1)) + (((subtotal1) * 9/100) * 10/100);
+var itemTotal = [
+    {
+        index: null,
+        title: 'Jumlah A dari a,b,c',
+        jumlah: null,
+        persen: null,
+        subtotal: subtotal1,
+    },
+    {
+        index: null,
+        title: 'Fee Management',
+        jumlah: subtotal1,
+        persen: '9%',
+        subtotal:(subtotal1) * 9/100,
+    },
+    {
+        index: null,
+        title: 'Total',
+        jumlah: null,
+        persen: null,
+        subtotal: subtotal1 * 9/100 + (subtotal1),
+    },
+    {
+        index: null,
+        title: 'PPn',
+        jumlah: (subtotal1) * 9/100,
+        persen: '10%',
+        subtotal: ((subtotal1) * 9/100) * 10/100,
+    },
+    {
+        index: null,
+        title: 'Total',
+        jumlah: null,
+        persen: null,
+        subtotal: subtotal2,
+    },
+    {
+        index: null,
+        title: 'PPh',
+        jumlah: (subtotal1) * 9/100,
+        persen: '2%',
+        subtotal: ((subtotal1) * 9/100) * 2/100,
+    },
+    {
+        index: null,
+        title: 'Total',
+        jumlah: null,
+        persen: null,
+        subtotal: subtotal2 - (((subtotal1) * 9/100) * 2/100),
+    },
+]
+export default ({data, itemTotal})

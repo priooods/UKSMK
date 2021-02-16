@@ -47,7 +47,7 @@
               depressed
               color="error"
               block
-              @click="$router.go(-1)"
+              to="/karyawan"
             >
               <span>Cancel</span>
             </v-btn>

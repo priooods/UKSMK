@@ -267,4 +267,4 @@ var headerKaryawan = [
 ]
 var expoExcelUK = headerKaryawan.concat(head);
 var exportExcel = headersBPJS.concat(head);
-export default ({headersBPJS, head, exportExcel,expoExcelUK, headerKaryawan})
+export default ({headersBPJS, head, exportExcel, expoExcelUK, headerKaryawan})

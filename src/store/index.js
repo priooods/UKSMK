@@ -2,7 +2,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import Vue from 'vue';
 import createPersistedState from 'vuex-persistedstate';
-// import SecureLS from "secure-ls";
+import SecureLS from "secure-ls";
 import router from '../router/index';
 
 Vue.use(Vuex);
@@ -10,20 +10,20 @@ const instance = axios.create({
     baseURL: "https://digitalsystemindo.com/api/v1/"
   });
 
-// const secureLS = new SecureLS({
-//     encodingType: 'aes',
-//     encryptionSecret: 'token'
-//   });
+const secureLS = new SecureLS({
+    encodingType: 'aes',
+    encryptionSecret: 'token'
+  });
 
 const res = createPersistedState({
     key: 'data',
     paths: ['response','myprofile', 'userDetail', 'ukone', 'uktwo',
      'ukthree', 'karyawanBaru', 'karyawanUser'],
-    // storage: {
-    //     getItem: (key) => localStorage.getItem(key),
-    //     setItem: (key, value) => localStorage.setItem(key, value),
-    //     removeItem: (key) => localStorage.removeItem(key),
-    //   },
+    storage: {
+        getItem: (key) => secureLS.get(key),
+        setItem: (key, value) => secureLS.set(key, value),
+        removeItem: (key) => secureLS.remove(key),
+      },
 });
 
 
@@ -100,7 +100,6 @@ export default new Vuex.Store({
         async myprofile({commit}){
             await instance.post('myprofile', {token: this.state.response.token}).then((data)=>{
                 this.state.myprofile = data.data;
-                console.log(this.state.myprofile);
                 commit('dat',this.state.myprofile)
             }).catch(err=>{
                 console.log(err);
@@ -227,7 +226,7 @@ export default new Vuex.Store({
         userDetail: state => state.userDetail,
         karyawanTerbaru: state => state.karyawanBaru
     },
-    modules:{},
+    modules:{res},
 });
 
 //     Route::post('login', [AuthController::class, 'login']);

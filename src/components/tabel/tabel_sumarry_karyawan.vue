@@ -22,6 +22,7 @@
         :items="tabelfields"
         :headers="models"
         id="tabletops"
+        class="row-pointer"
         hide-default-footer
       >
         <template v-slot:[`item.index`]="{ item }">
@@ -219,7 +220,7 @@
           </tr>
         </template>
       </v-data-table>
-      <v-data-table :items="itemBottom" dense :headers="totals"  hide-default-footer >
+      <v-data-table :items="itemBottom" dense :headers="totals"  hide-default-footer class="row-pointer" >
         <template v-slot:[`item.title`]="{ item }">
           <span class="tx tc">{{ item.title.toUpperCase() }}</span>
         </template>
@@ -248,14 +249,6 @@
         <strong class="mt-2">{{ from }}</strong>
       </div>
     </div>
-    <vue-excel-xlsx
-        :data="concat"
-        :columns="check.expoExcelUK"
-        :filename="'filename'"
-        :sheetname="'sheetname'"
-        >
-        Download
-    </vue-excel-xlsx>
   </div>
 </template>
 
@@ -298,7 +291,7 @@ export default {
     },
   },
   computed: {
-    concat() {
+    concate() {
       return this.tabelfields.concat(this.itemBottom);
     },
     isMobile() {
@@ -396,10 +389,12 @@ table.v-table {
 .text-right {
   background: rgb(238, 238, 238);
 }
-table td + td {
-  border-left: 1px solid #dddddd;
+// table td + td {
+//   border-left: 1px solid #dddddd;
+// }
+.row-pointer {
+  border-left: 1px solid #dddddd !important;
 }
-
 .tc {
   font-style: italic;
   font-weight: bold;

@@ -16,13 +16,27 @@
         depressed
         >Buat Laporan Baru</vs-button
       >
-      <vs-button
-        class="mt-3 col-md-1 my-auto"
-        danger
-        @click="printPDF((showing = !showing))"
+      <vs-button class="mt-3 col-md-1 my-auto" danger @click="printPDF"
         >Print</vs-button
       >
-      <vs-button class="mt-3 col-md-1 mb-auto" success>Excel</vs-button>
+      <vs-button class="mt-3 col-md-1 mb-auto" success v-if="openTableBPJS">
+        <vue-excel-xlsx
+          :data="dtbpjs"
+          :columns="models.exportExcel"
+          :filename="'Table Data'"
+          :sheetname="'Table Data'"
+          >Excel</vue-excel-xlsx
+        >
+      </vs-button>
+      <vs-button class="mt-3 col-md-1 mb-auto" success v-else>
+        <vue-excel-xlsx
+          :data="concate"
+          :columns="models.expoExcelUK"
+          :filename="'Table Data'"
+          :sheetname="'Table Data'"
+          >Excel</vue-excel-xlsx
+        >
+      </vs-button>
     </div>
     <div class="ln my-5"></div>
     <vue-html2pdf
@@ -58,8 +72,8 @@
         />
         <tabelUK
           v-else
-          ref="tabUK"
-          id="tabUK"
+          ref="tabuk"
+          id="tabuk"
           :tabelfields="dataUK1"
           :judul="captionsUK.judul"
           :subtitle="captionsUK.subtitle"
@@ -91,8 +105,8 @@
     />
     <tabelUK
       v-else
-      ref="tabUK"
-      id="tabUK"
+      ref="tabuk"
+      id="tabuk"
       :tabelfields="dataUK1"
       :judul="captionsUK.judul"
       :subtitle="captionsUK.subtitle"
@@ -119,6 +133,7 @@ export default {
   components: { tabelbpjs, tabelUK, dialogs },
   data: () => {
     return {
+      dtbpjs: null,
       openTableBPJS: true,
       captions: {
         judul: "DAFTAR BPJS KESEHATAN DAN KETENAGAKERJAAN KARYAWAN",
@@ -132,15 +147,14 @@ export default {
       },
       models: model,
       htmlToPdfOptions: {
-        filename: `hehehe.pdf`,
+        filename: `Salary.pdf`,
         enableLinks: false,
       },
+      sw: false,
       dataTable: Object,
       valuOpenUk: "0",
-
       dataUK1: Object,
       datatotalUK: Object,
-
       captionsUK: {
         judul: "DATA GAJI KARYAWAN TAMBAK UK I CISAAT",
         subtitle: "TAMBAK UDANG VANNAME PT. UJUNG KULON SUKSES MAKMUR ABADI",
@@ -160,6 +174,86 @@ export default {
         index: index + 1,
       }));
     },
+    concate() {
+      return this.datatotalUK.concat(this.itemBottom);
+    },
+    itemBottom() {
+      return this.vls.map((item, index) => ({
+        no: index + 1,
+        ...item,
+      }));
+    },
+    sumgaji() {
+      let sum = 0;
+      this.datatotalUK.forEach((e) => {
+        sum += parseInt(e.gaji);
+      });
+      return sum;
+    },
+    sumuangMakan() {
+      let sum = 0;
+      this.datatotalUK.forEach((e) => {
+        sum += parseInt(e.uang_makan);
+      });
+      return sum;
+    },
+    sumTotalGaji() {
+      let sum = 0;
+      this.datatotalUK.forEach((e) => {
+        sum += parseInt(e.gaji_total);
+      });
+      return sum;
+    },
+    sumkesehatan() {
+      let sum = 0;
+      this.datatotalUK.forEach((e) => {
+        sum += parseInt(e.bpjs_kesehatan);
+      });
+      return sum;
+    },
+    sumkerja() {
+      let sum = 0;
+      this.datatotalUK.forEach((e) => {
+        sum += parseInt(e.bpjs_tenagakerja);
+      });
+      return sum;
+    },
+    sumtotal() {
+      let sum = 0;
+      this.datatotalUK.forEach((e) => {
+        sum += parseInt(e.gaji);
+      });
+      return sum;
+    },
+    vls() {
+      let dt = [
+        {
+          title: "PEMBAYARAN GAJI KARYAWAN",
+          sum: this.sumgaji,
+        },
+        {
+          title: "PEMBAYARAN BPJS KESEHATAN",
+          sum: this.sumkesehatan,
+        },
+        {
+          title: "PEMBAYARAN BPJS KETENAGAKERJAAN",
+          sum: this.sumkerja,
+        },
+        {
+          title: "SUB TOTAL 1+2+3",
+          sum: this.sumgaji + this.sumkesehatan + this.sumkerja,
+        },
+        {
+          title: "SUB TOTAL GAJI POKOK + UANG MAKAN",
+          sum: this.sumTotalGaji,
+        },
+        {
+          title: "FEE MANAGEMENT 9%",
+          sum: (this.sumTotalGaji * 9) / 100,
+        },
+      ];
+      return dt;
+    },
   },
   created() {
     var tm = timezone.tz("Asia/Jakarta").format("MMMM YYYY");
@@ -170,7 +264,9 @@ export default {
     this.dataUK1 = this.itemUK1;
     this.datatotalUK = this.$store.state.ukone;
   },
-
+  mounted() {
+    this.dtbpjs = this.$refs.tabpjs.concat;
+  },
   methods: {
     opendialog() {
       this.$refs.dialog.open();
@@ -183,11 +279,11 @@ export default {
           break;
         case "1":
           this.openTableBPJS = false;
+          this.datatotalUK = this.$store.state.ukone;
           this.dataUK1 = this.$store.state.ukone.map((items, index) => ({
             ...items,
             index: index + 1,
           }));
-
           this.captionsUK.judul = "DATA GAJI KARYAWAN TAMBAK UK I CISAAT";
           this.captionsUK.subtitle =
             "TAMBAK UDANG VANNAME PT. UJUNG KULON SUKSES MAKMUR ABADI";
@@ -206,12 +302,12 @@ export default {
           break;
         case "3":
           this.openTableBPJS = false;
-
           this.datatotalUK = this.$store.state.ukthree;
           this.dataUK1 = this.$store.state.ukthree.map((items, index) => ({
             ...items,
             index: index + 1,
           }));
+
           this.captionsUK.judul = "DATA GAJI KARYAWAN TAMBAK UK III CISAAT";
           this.captionsUK.subtitle =
             "TAMBAK UDANG VANNAME PT. UJUNG KULON SUKSES MAKMUR ABADI";

@@ -5,7 +5,6 @@
       <keep-alive>
         <router-view class="pb-5 px-5 view"></router-view>
       </keep-alive>
-      <!-- <button @click="getdata">Log Out</button> -->
       <footer>
         <div class="d-flex justify-content-end foot px-4 py-2 foot">
           <p class="tx">© 2021 Powered By UKSMK</p>
@@ -26,11 +25,15 @@ export default {
       users: null,
     };
   },
+  created() {
+    this.$store.dispatch(`allUsers`);
+    this.$store.dispatch(`byukOne`);
+    this.$store.dispatch(`byukTwo`);
+    this.$store.dispatch(`byukThree`);
+  },
   methods: {
     getdata() {
-      this.$router.push({ path: "/" }, () => {
-        // window.localStorage.removeItem("res");
-      });
+      this.$router.push({ path: "/" }, () => {});
     },
   },
 

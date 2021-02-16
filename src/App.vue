@@ -17,9 +17,6 @@ export default {
 html {
   background: rgb(248, 248, 248);
 }
-// .v-application--wrap {
-//   min-height: auto !important;
-// }
 ::-webkit-scrollbar {
   width: 8px;
   background: white;

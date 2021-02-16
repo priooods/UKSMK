@@ -6,7 +6,6 @@ import Home from '../views/Home.vue';
 import Karyawan from '../views/karyawan/Karyawan.vue';
 import TambahKaryawan from '../views/karyawan/Tambah_karyawan.vue'
 import KaryawanDetail from '../views/karyawan/Details.vue'
-import store from '../store/index';
 import error_page from '../views/Error_page.vue';
 import notfound from '../views/Not_Found.vue';
 import salary from '../views/salary/Salary.vue';
@@ -19,34 +18,31 @@ const routes = [
     name: 'Login',
     component: Login,
     beforeEnter: (to, from, next) => {
-      if(window.localStorage.getItem("res") != null){
-        window.localStorage.removeItem("res");
-      }
+      if(window.localStorage.getItem("data") != null){
+        window.localStorage.removeItem("data");
+        next();
+      }else
       next();
-    }
+    },
   },
   {
     path: '/home',
     component: BaseHome,
     name: 'BaseHome',
     beforeEnter: (to,from,next) => {
-      if(store.getters.getData == undefined){
+      if(window.localStorage.getItem("data") == undefined || window.localStorage.getItem("data") == null){
         next({ name: "Login" })
       } else
-      store.dispatch(`allUsers`);
-      store.dispatch(`byukOne`);
-      store.dispatch(`byukTwo`);
-      store.dispatch(`byukThree`);
       next();
     },
     children: [
       { 
         path: '/karyawan', 
         component: Karyawan,
-        name: 'karyawan'
+        name: 'karyawan',
       }, 
       { path: '/homepage', component: Home, name: 'Home' },
-      { path: '/salary', component: salary, name: 'Salary' },
+      { path: '/salary', component: salary, name: 'Salary', },
       { path: '/karyawan/add', component: TambahKaryawan, name: 'Add' },
       { path: '/invoice', component: invoice, name: 'Invoice' },
       { path: '/karyawan/details', component: KaryawanDetail, name: 'Details' }
@@ -57,13 +53,10 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
   base: process.env.BASE_URL,
+  mode: 'history',
   routes,
   linkActiveClass: "active", 
   linkExactActiveClass: "active",
-  scrollBehavior () {
-    return { x: 0, y: 0 }
-  }
 })
 export default router
