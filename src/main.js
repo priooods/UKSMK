@@ -10,6 +10,7 @@ import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue'
 import Toast from "vue-toastification";
 import Vuesax from 'vuesax'
+import VueExcelXlsx from "vue-excel-xlsx";
 import VuetifyMoney from "vuetify-money";
 import 'vuesax/dist/vuesax.css'
 import "vue-toastification/dist/index.css";
@@ -19,6 +20,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import VueHtml2pdf from 'vue-html2pdf'
+Vue.use(VueExcelXlsx);
 Vue.use(VueHtml2pdf)
 Vue.use(VuetifyMoney);
 Vue.use(BootstrapVue)

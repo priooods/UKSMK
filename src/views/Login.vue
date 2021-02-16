@@ -2,7 +2,7 @@
   <div class="lt container">
     <div class="row justify-content-center align-items-center h-100">
       <div class="col-md-3 p-lg-0 p-sm-0 p-md-0">
-        <h5 class="mb-5 font-weight-bold" style="color: #195bff">UKSMK</h5>
+        <h5 class="mb-5 font-weight-bold" style="color: #195bff">MLBSYSTEM</h5>
         <h4 class="font-weight-bold">Log in to your account</h4>
         <p class="dsc">
           Masukan nama lengkap dan password anda dengan benar. Hubungi Operator

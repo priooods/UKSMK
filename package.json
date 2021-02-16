@@ -21,6 +21,7 @@
     "secure-ls": "^1.2.6",
     "vue": "^2.6.12",
     "vue-axios": "^3.2.4",
+    "vue-excel-xlsx": "^1.0.11",
     "vue-html2pdf": "^1.8.0",
     "vue-router": "^3.5.1",
     "vue-toastification": "^1.7.11",

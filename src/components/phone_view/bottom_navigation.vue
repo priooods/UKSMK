@@ -1,24 +1,24 @@
 <template>
   <div class="d-block d-md-none d-lg-none d-xl-none pos">
     <v-bottom-navigation :value="value" color="primary" grow>
-      <v-btn to="/home">
+      <v-btn to="/homepage" @click="active = 0">
         <span>Home</span>
 
         <v-icon>mdi-home</v-icon>
       </v-btn>
 
-      <v-btn to="/karyawan">
+      <v-btn to="/karyawan" @click="active = 1">
         <span>Karyawan</span>
 
         <v-icon>mdi-account-multiple</v-icon>
       </v-btn>
 
-      <v-btn to="/dev">
+      <v-btn to="/invoice" @click="active = 2">
         <span>Invoice</span>
 
         <v-icon>mdi-archive</v-icon>
       </v-btn>
-      <v-btn to="/dev">
+      <v-btn to="/salary" @click="active = 3">
         <span>Salary</span>
 
         <v-icon>mdi-cash</v-icon>
@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  data: () => ({ value: 0 }),
+  data: () => ({ value: null }),
 };
 </script>
 

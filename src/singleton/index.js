@@ -2,6 +2,8 @@ class ModelData{
     constructor(){
         if(ModelData.instance == null){
             this.data = [];
+            this.tables = {}
+            
             ModelData.instance = this;
         }
         return ModelData.instance;
@@ -10,6 +12,7 @@ class ModelData{
     users(data){
         this.data.push(data);
     }
+
 
     // import model from '../model'
     //Kalau mau setting data cukup jalankan ini di script js component
@@ -26,6 +29,9 @@ class ModelData{
     gettingUser(){
         console.log(`${this.data}`);
     }
+    // gettingTab(){
+    //     console.log(this.models);
+    // }
 }
 
 const model = new ModelData();

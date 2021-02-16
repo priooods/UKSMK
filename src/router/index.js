@@ -10,6 +10,7 @@ import store from '../store/index';
 import error_page from '../views/Error_page.vue';
 import notfound from '../views/Not_Found.vue';
 import salary from '../views/salary/Salary.vue';
+import invoice from '../views/Invoice.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -47,6 +48,7 @@ const routes = [
       { path: '/homepage', component: Home, name: 'Home' },
       { path: '/salary', component: salary, name: 'Salary' },
       { path: '/karyawan/add', component: TambahKaryawan, name: 'Add' },
+      { path: '/invoice', component: invoice, name: 'Invoice' },
       { path: '/karyawan/details', component: KaryawanDetail, name: 'Details' }
     ]
   },
@@ -56,7 +58,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  base: '/mlbsystem',
+  base: process.env.BASE_URL,
   routes,
   linkActiveClass: "active", 
   linkExactActiveClass: "active",

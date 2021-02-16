@@ -20,6 +20,15 @@
                 }}</span></v-list-item-avatar
               >
             </v-list-item>
+            <v-card-actions
+              ><v-btn
+                text
+                color="deep-purple accent-4"
+                @click="showTable((statusTabel = 0))"
+              >
+                Lihat Semua
+              </v-btn></v-card-actions
+            >
           </v-card>
         </div>
         <div class="col-md-3">
@@ -40,6 +49,15 @@
                 }}</span></v-list-item-avatar
               >
             </v-list-item>
+            <v-card-actions
+              ><v-btn
+                text
+                color="deep-purple accent-4"
+                @click="showTable((statusTabel = 1))"
+              >
+                Lihat Semua
+              </v-btn></v-card-actions
+            >
           </v-card>
         </div>
         <div class="col-md-3">
@@ -60,6 +78,15 @@
                 }}</span></v-list-item-avatar
               >
             </v-list-item>
+            <v-card-actions
+              ><v-btn
+                text
+                color="deep-purple accent-4"
+                @click="showTable((statusTabel = 2))"
+              >
+                Lihat Semua
+              </v-btn></v-card-actions
+            >
           </v-card>
         </div>
         <div class="col-md-3">
@@ -73,13 +100,21 @@
                   >Jumlah Semua Karyawan</v-list-item-subtitle
                 >
               </v-list-item-content>
-
               <v-list-item-avatar size="40"
                 ><span style="font-size: 30px">{{
                   $store.state.ukthree.length
                 }}</span></v-list-item-avatar
               >
             </v-list-item>
+            <v-card-actions
+              ><v-btn
+                text
+                color="deep-purple accent-4"
+                @click="showTable((statusTabel = 3))"
+              >
+                Lihat Semua
+              </v-btn></v-card-actions
+            >
           </v-card>
         </div>
       </div>
@@ -94,7 +129,7 @@
           Tambah Karyawan Baru
         </vs-button>
       </div>
-      <tabelkaryawan ref="tabel" />
+      <tabelkaryawan ref="tabel" :data="data" />
     </div>
   </div>
 </template>
@@ -116,13 +151,34 @@ export default {
         uk3: 0,
       },
       active: 0,
+      statusTabel: 0,
+      data: null,
     };
   },
   created() {
     this.all = this.$store.state.karyawanUser.length;
+    this.data = this.$store.state.karyawanUser;
     this.uk1 = this.$store.state.ukone.length;
     this.uk2 = this.$store.state.uktwo.length;
     this.uk3 = this.$store.state.ukthree.length;
+  },
+  methods: {
+    showTable() {
+      switch (this.statusTabel) {
+        case 0:
+          this.data = this.$store.state.karyawanUser;
+          break;
+        case 1:
+          this.data = this.$store.state.ukone;
+          break;
+        case 2:
+          this.data = this.$store.state.uktwo;
+          break;
+        case 3:
+          this.data = this.$store.state.ukthree;
+          break;
+      }
+    },
   },
 };
 </script>

@@ -33,17 +33,24 @@
           </div>
 
           <div class="d-none d-md-block d-lg-block">
-            <vs-button class="w-100 ml-n1 p-0 mt-4" @click="clickSave">
-              Save Data
-            </vs-button>
-            <vs-button
+            <v-btn
+              class="w-100 ml-n1 p-0 mt-4"
+              depressed
+              color="primary"
+              block
+              @click="clickSave"
+            >
+              <span>Save Data</span>
+            </v-btn>
+            <v-btn
               class="w-100 ml-n1 p-0 mt-2"
-              danger
-              config
+              depressed
+              color="error"
+              block
               @click="$router.go(-1)"
             >
-              Cancel
-            </vs-button>
+              <span>Cancel</span>
+            </v-btn>
           </div>
         </div>
       </div>
@@ -125,15 +132,6 @@
             ></v-select>
           </div>
           <div class="field col-md-3 mt-n5">
-            <!-- <v-text-field
-              label="Tanggal Lahir"
-              outlined
-              background-color="white"
-              required
-              type="date"
-              v-model="form.tanggal_lahir"
-              dense
-            ></v-text-field> -->
             <v-dialog
               ref="menu"
               v-model="menu2"
@@ -349,17 +347,24 @@
         </v-form>
       </div>
       <div class="d-block d-lg-none d-md-none d-xl-none col-md-3 pr-4">
-        <vs-button class="w-100 ml-n1 p-0 mt-4" @click="clickSave">
-          Save Data
-        </vs-button>
-        <vs-button
+        <v-btn
+          class="w-100 ml-n1 p-0 mt-4"
+          depressed
+          color="primary"
+          block
+          @click="clickSave"
+        >
+          <span>Save Data</span>
+        </v-btn>
+        <v-btn
           class="w-100 ml-n1 p-0 mt-2"
-          danger
-          config
+          depressed
+          color="error"
+          block
           @click="$router.go(-1)"
         >
-          Cancel
-        </vs-button>
+          <span>Cancel</span>
+        </v-btn>
       </div>
     </div>
   </div>
@@ -462,9 +467,6 @@ export default {
     font-weight: 700;
   }
   .xe {
-    span {
-      color: red;
-    }
     .mt-2,
     .mt-1 {
       font-size: 13px;

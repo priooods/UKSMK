@@ -5,13 +5,13 @@
         class="mr-auto my-auto text-uppercase font-weight-bold"
         style="color: #195bff"
       >
-        uksmk
+        MLBSYSTEM
       </h5>
       <div class="route mr-auto">
         <div class="d-flex align-items-center justify-content-center">
           <router-link to="/homepage" class="mr-3 ml-3">Home</router-link>
           <router-link to="/karyawan" class="mr-3 ml-3">Karyawan</router-link>
-          <router-link to="/dev" class="mr-3 ml-3">Invoice</router-link>
+          <router-link to="/invoice" class="mr-3 ml-3">Invoice</router-link>
           <router-link class="mr-3 ml-3" to="/salary">Salary</router-link>
         </div>
       </div>

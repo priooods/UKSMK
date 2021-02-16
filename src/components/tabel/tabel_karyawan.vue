@@ -56,6 +56,11 @@
 import Vue2Filters from "vue2-filters";
 export default {
   mixins: [Vue2Filters.mixin],
+  props: {
+    data: {
+      type: Array,
+    },
+  },
   data() {
     return {
       search: "",
@@ -77,6 +82,7 @@ export default {
         {
           text: "Tanggal Lahir",
           class: "head",
+          align: "center",
           value: "tanggal_lahir",
           sortable: false,
         },
@@ -106,7 +112,7 @@ export default {
   },
   computed: {
     itemsWithIndex() {
-      return this.$store.state.karyawanUser.map((items, index) => ({
+      return this.data.map((items, index) => ({
         ...items,
         index: index + 1,
       }));

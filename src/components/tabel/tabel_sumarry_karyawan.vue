@@ -6,18 +6,18 @@
       </div>
       <div class="col text-center text-uppercase ttl">
         <h4 class="font-weight-bold">
-          {{judul}}
+          {{ judul }}
         </h4>
         <h5 class="font-weight-bold">
-          {{subtitle}}
+          {{ subtitle }}
         </h5>
-        <h5 class="font-weight-bold">{{date}}</h5>
+        <h5 class="font-weight-bold">{{ date }}</h5>
       </div>
       <div class="col-md-1 d-none d-md-block d-lg-block d-xl-block cs">
         <img src="../../assets/logo_2.png" alt="log" />
       </div>
     </div>
-    <v-card >
+    <v-card>
       <v-data-table
         :items="tabelfields"
         :headers="models"
@@ -51,14 +51,11 @@
         <template v-slot:[`item.bpjs_tenagakerja`]="{ item }">
           <span class="tx">{{ item.bpjs_tenagakerja | currency("Rp. ") }}</span>
         </template>
-        <template v-slot:[`item.status_kesehatan`]="{ item }">
-          <span class="tx">{{ item.status_kesehatan.toUpperCase() }}</span>
-        </template>
-        <template v-slot:[`item.status_tenagakerja`]="{ item }">
-          <span class="tx">{{ item.status_tenagakerja.toUpperCase() }}</span>
+        <template v-slot:[`item.uang_makan`]="{ item }">
+          <span class="tx">{{ item.uang_makan | currency("Rp. ") }}</span>
         </template>
         <template v-slot:[`item.gaji_total`]="{ item }">
-          <span class="tx">{{ item.gaji | currency("Rp. ") }}</span>
+          <span class="tx">{{ item.gaji_total | currency("Rp. ") }}</span>
         </template>
         <template v-slot:[`body.append`]>
           <tr :class="{ 'v-data-table__mobile-table-row': isMobile }">
@@ -68,7 +65,7 @@
               class="text-right bc"
             > 
               <td
-              v-text="$store.state.karyawanUser.length"
+              v-text="tabelfields.length"
               class="font-weight-bold fot0"
             />
             </th>
@@ -138,15 +135,15 @@
               :colspan="`${isMobile ? 6 : 1}`"
               :class="{ 'v-data-table__mobile-row' : isMobile }"
               class="text-right"
-            > <span class="sp">Status Kesehatan</span>
-              <td class="font-weight-bold fot2">Rp. -</td>
+            > <span class="sp">Uang Makan</span>
+              <td class="font-weight-bold fot2">{{ sumuangMakan | currency("Rp. ") }}</td>
             </th>
             <th
               :colspan="`${isMobile ? 6 : 1}`"
               :class="{ 'v-data-table__mobile-row' : isMobile }"
               class="text-right"
-            > <span class="sp">Status TenagaKerja</span>
-              <td class="font-weight-bold fot2">Rp. -</td>
+            > <span class="sp">Gaji Total</span>
+              <td class="font-weight-bold fot2">{{ sumTotalGaji | currency("Rp. ") }}</td>
             </th>
             <th
               :colspan="`${isMobile ? 6 : 1}`"
@@ -157,7 +154,7 @@
               {{ sumtotal | currency("Rp. ") }}
             </td>
             </th>
-          </tr>
+          </tr> 
           <tr :class="{ 'v-data-table__mobile-table-row': isMobile }">
             <th
               :colspan="`${isMobile ? 6 : 1}`"
@@ -233,22 +230,27 @@
     </v-card>
     <div class="row justify-content-end mt-5 dd">
       <div class="col-md-3 mt-3 text-center">
-        <strong class="font-weight-bold">{{ kota }},<span class="space"></span><span class="font-weight-normal">{{tanggal_pengesahan}}</span></strong>
+        <strong class="font-weight-bold"
+          >{{ kota }},<span class="space"></span
+          ><span class="font-weight-normal">{{
+            tanggal_pengesahan
+          }}</span></strong
+        >
       </div>
     </div>
     <div class="row justify-content-end mt-5 dd">
       <div class="col-md-5 mt-5 text-center">
         <p class="mb-n1">Dikeluarkan :</p>
-        <strong class="mt-2">{{diketahui}}</strong>
+        <strong class="mt-2">{{ diketahui }}</strong>
       </div>
       <div class="col-md-5 mt-5 text-center">
         <p class="mb-n1">Diketahui :</p>
-        <strong class="mt-2">{{from}}</strong>
+        <strong class="mt-2">{{ from }}</strong>
       </div>
     </div>
     <vue-excel-xlsx
         :data="concat"
-        :columns="check.exportExcel"
+        :columns="check.expoExcelUK"
         :filename="'filename'"
         :sheetname="'sheetname'"
         >
@@ -268,6 +270,7 @@ export default {
     };
   },
   props: {
+    show: Boolean,
     models: {
       type: Array,
     },
@@ -290,10 +293,13 @@ export default {
     tabelfields: {
       type: Array,
     },
+    totalsfields: {
+      type: Array,
+    },
   },
   computed: {
     concat() {
-      return this.itemsWithIndex.concat(this.itemBottom);
+      return this.tabelfields.concat(this.itemBottom);
     },
     isMobile() {
       return this.$vuetify.breakpoint.name === "xs";
@@ -304,36 +310,44 @@ export default {
         ...item,
       }));
     },
-    itemsWithIndex() {
-      return this.$store.state.karyawanUser.map((items, index) => ({
-        ...items,
-        index: index + 1,
-      }));
-    },
     sumgaji() {
       let sum = 0;
-      this.$store.state.karyawanUser.forEach((e) => {
+      this.tabelfields.forEach((e) => {
         sum += parseInt(e.gaji);
+      });
+      return sum;
+    },
+    sumuangMakan() {
+      let sum = 0;
+      this.tabelfields.forEach((e) => {
+        sum += parseInt(e.uang_makan);
+      });
+      return sum;
+    },
+    sumTotalGaji() {
+      let sum = 0;
+      this.tabelfields.forEach((e) => {
+        sum += parseInt(e.gaji_total);
       });
       return sum;
     },
     sumkesehatan() {
       let sum = 0;
-      this.$store.state.karyawanUser.forEach((e) => {
+      this.tabelfields.forEach((e) => {
         sum += parseInt(e.bpjs_kesehatan);
       });
       return sum;
     },
     sumkerja() {
       let sum = 0;
-      this.$store.state.karyawanUser.forEach((e) => {
+      this.tabelfields.forEach((e) => {
         sum += parseInt(e.bpjs_tenagakerja);
       });
       return sum;
     },
     sumtotal() {
       let sum = 0;
-      this.$store.state.karyawanUser.forEach((e) => {
+      this.tabelfields.forEach((e) => {
         sum += parseInt(e.gaji);
       });
       return sum;
@@ -358,7 +372,11 @@ export default {
         },
         {
           title: "SUB TOTAL GAJI POKOK + UANG MAKAN",
-          sum: 0,
+          sum: this.sumTotalGaji,
+        },
+        {
+          title: "FEE MANAGEMENT 9%",
+          sum: (this.sumTotalGaji * 9) / 100,
         },
       ];
       return dt;
