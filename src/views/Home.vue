@@ -211,13 +211,11 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("myprofile");
-  },
-  mounted() {
-    this.getactive;
+    this.active = this.getactive.length;
     this.profile = this.$store.state.myprofile;
     this.access = this.$store.state.myprofile.level;
-    this.active = this.getactive.length;
+  },
+  mounted() {
     this.createChart("planet-chart", this.planetChartData);
   },
   data: () => ({

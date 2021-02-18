@@ -2,9 +2,7 @@
   <div id="home">
     <div class="sh">
       <topbar class="topbar" />
-      <keep-alive>
-        <router-view class="pb-5 px-5 view"></router-view>
-      </keep-alive>
+      <router-view class="pb-5 px-5 view"></router-view>
       <footer>
         <div class="d-flex justify-content-end foot px-4 py-2 foot">
           <p class="tx">© 2021 Powered By UKSMK</p>

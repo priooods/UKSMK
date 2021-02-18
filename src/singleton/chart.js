@@ -1,10 +1,10 @@
 import store from '../store';
 
-var uk1 = store.state.ukone.length
-var uk2 = store.state.uktwo.length
-var uk3 = store.state.ukthree.length
-var all = store.state.karyawanUser.length + store.state.operator.length
-var operator = store.state.operator.length
+let uk1 = store.state.ukone.length;
+let uk2 = store.state.uktwo.length;
+let uk3 = store.state.ukthree.length;
+let all = store.state.karyawanUser.length + store.state.operator.length;
+let operator = store.state.operator.length;
 
 export const planetChartData = {
     type: 'bar',

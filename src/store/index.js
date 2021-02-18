@@ -263,7 +263,11 @@ export default new Vuex.Store({
         users: state => state.myprofile,
         allkaryawan: state => state.karyawanUser,
         userDetail: state => state.userDetail,
-        karyawanTerbaru: state => state.karyawanBaru
+        karyawanTerbaru: state => state.karyawanBaru,
+        ukone: state => state.ukone,
+        uktwo: state => state.uktwo,
+        ukthree: state => state.ukthree,
+        operator: state => state.operator,
     },
     modules:{res},
 });
