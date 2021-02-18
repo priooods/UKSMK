@@ -25,12 +25,6 @@ export default {
       users: null,
     };
   },
-  created() {
-    this.$store.dispatch(`allUsers`);
-    this.$store.dispatch(`byukOne`);
-    this.$store.dispatch(`byukTwo`);
-    this.$store.dispatch(`byukThree`);
-  },
   methods: {
     getdata() {
       this.$router.push({ path: "/" }, () => {});
@@ -57,9 +51,9 @@ html {
   }
 }
 @media screen and (max-width: 700px) {
-  .view {
-    margin-top: 0 !important;
-  }
+  // .view {
+  //   margin-top: 0 !important;
+  // }
   .sh {
     margin-bottom: 50px;
   }

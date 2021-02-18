@@ -19,6 +19,10 @@ import 'boxicons/css/boxicons.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 Vue.use(VueExcelXlsx);
+import 'vuesax/dist/vuesax.css'
+import 'boxicons/css/boxicons.min.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(VueHtml2pdf)
 Vue.use(VuetifyMoney);
 Vue.use(BootstrapVue)

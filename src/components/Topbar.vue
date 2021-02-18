@@ -1,13 +1,13 @@
 <template>
-  <div class="d-none d-md-block d-lg-block d-xl-block top">
+  <div class="top">
     <div class="d-flex justify-content-end py-3 px-5 align-items-center">
       <h5
-        class="mr-auto my-auto text-uppercase font-weight-bold"
+        class="mr-auto my-auto text-uppercase font-weight-bold xx"
         style="color: #195bff"
       >
         MLBSYSTEM
       </h5>
-      <div class="route mr-auto">
+      <div class="route mr-auto d-none d-md-block d-lg-block d-xl-block">
         <div class="d-flex align-items-center justify-content-center">
           <router-link to="/homepage" class="mr-3 ml-3">Home</router-link>
           <router-link to="/karyawan" class="mr-3 ml-3">Karyawan</router-link>
@@ -15,16 +15,23 @@
           <router-link class="mr-3 ml-3" to="/salary">Salary</router-link>
         </div>
       </div>
-      <div class="end d-flex justify-content-end align-items-center">
+      <div
+        class="end justify-content-end align-items-center d-none d-md-flex d-lg-flex d-xl-flex"
+      >
         <i class="bx bx-calendar"></i>
         <p class="my-auto ml-2">{{ time }}</p>
         <p class="mx-2 my-auto">|</p>
       </div>
-      <v-avatar size="35">
+      <v-avatar size="35" class="d-none d-md-block d-lg-block d-xl-block">
         <img src="../assets/man.png" alt="Avatar" />
       </v-avatar>
+      <vs-button
+        flat
+        to="/"
+        class="my-auto col-3 xx d-block d-md-none d-lg-none d-xl-none"
+        >Logout</vs-button
+      >
     </div>
-    <!-- <div class="ln"></div> -->
   </div>
 </template>
 
@@ -94,6 +101,13 @@ export default {
     width: 100%;
     height: 1px;
     background: black;
+  }
+}
+@media screen and (max-width: 900px) {
+  .top {
+    .xx {
+      font-size: 13px;
+    }
   }
 }
 </style>

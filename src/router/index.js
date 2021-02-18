@@ -6,10 +6,10 @@ import Home from '../views/Home.vue';
 import Karyawan from '../views/karyawan/Karyawan.vue';
 import TambahKaryawan from '../views/karyawan/Tambah_karyawan.vue'
 import KaryawanDetail from '../views/karyawan/Details.vue'
-import error_page from '../views/Error_page.vue';
 import notfound from '../views/Not_Found.vue';
 import salary from '../views/salary/Salary.vue';
 import invoice from '../views/Invoice.vue';
+import store from '../store/index';
 Vue.use(VueRouter)
 
 const routes = [
@@ -30,9 +30,14 @@ const routes = [
     component: BaseHome,
     name: 'BaseHome',
     beforeEnter: (to,from,next) => {
-      if(window.localStorage.getItem("data") == undefined || window.localStorage.getItem("data") == null){
+      if(window.localStorage.getItem("data") == undefined 
+      || window.localStorage.getItem("data") == null){
         next({ name: "Login" })
       } else
+      store.dispatch(`allUsers`);
+      store.dispatch(`byukOne`);
+      store.dispatch(`byukTwo`);
+      store.dispatch(`byukThree`);
       next();
     },
     children: [
@@ -48,7 +53,6 @@ const routes = [
       { path: '/karyawan/details', component: KaryawanDetail, name: 'Details' }
     ]
   },
-  { path: '/dev', component: error_page, name: 'Summary' },
   { path: '*', component: notfound, name: 'NotFound' }
 ]
 

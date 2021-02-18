@@ -415,6 +415,7 @@ export default {
         no_rekening: "",
         uang_makan: "1350000",
         tanggal_lahir: "",
+        log: "0",
         gaji_total: 0,
         level: "4",
         gender: "",
@@ -447,7 +448,7 @@ export default {
       find: "find",
     }),
     clickSave() {
-      this.token = this.$store.state.response.token;
+      this.form.token = this.$store.state.response.token;
       this.$store.state.karyawanForm = this.form;
       if (!this.$refs.form.validate()) {
         return false;

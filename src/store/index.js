@@ -18,7 +18,7 @@ const secureLS = new SecureLS({
 const res = createPersistedState({
     key: 'data',
     paths: ['response','myprofile', 'userDetail', 'ukone', 'uktwo',
-     'ukthree', 'karyawanBaru', 'karyawanUser'],
+     'ukthree', 'karyawanBaru', 'karyawanUser', 'operator'],
     storage: {
         getItem: (key) => secureLS.get(key),
         setItem: (key, value) => secureLS.set(key, value),
@@ -35,11 +35,12 @@ export default new Vuex.Store({
         karyawanBaru: null,
         userDetail: [],
         users: [],
-        myprofile: null,
+        myprofile: [],
         ukone: [],
         uktwo: [],
         ukthree: [],
         byuk: [],
+        operator: [],
         karyawanForm: [],
         karyawanUser: []
     },
@@ -68,6 +69,9 @@ export default new Vuex.Store({
         },
         ukthree(state, payload){
             state.ukthree = payload;
+        },
+        ope(state, payload){
+            state.operator = payload;
         }
     },
     actions:{
@@ -99,8 +103,8 @@ export default new Vuex.Store({
         },
         async myprofile({commit}){
             await instance.post('myprofile', {token: this.state.response.token}).then((data)=>{
-                this.state.myprofile = data.data;
-                commit('dat',this.state.myprofile)
+                this.state.myprofile = data.data.data;
+                commit('dat',data.data.data)
             }).catch(err=>{
                 console.log(err);
             })
@@ -168,15 +172,33 @@ export default new Vuex.Store({
             });
         },
         async updateuser(id,form){
+            const loading = this._vm.$vs.loading({
+                text: 'Loading...'
+              })
             await instance.post('updateuser/' + id,form).then((data)=>{
-                data
-                // if(data.data.error_code == 1){
-                //     } else{
-                //     return notification.success({
-                //         message: "Data karyawan berhasil di update !",
-                //         placement: 'topRight',
-                //         description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
-                // }
+                if(data.data.error_code == 1){
+                    loading.close();
+                    return this._vm.$vs.notification({
+                        color: 'danger',
+                        duration: 6000,
+                        position: 'top-left',
+                        title: 'Opps... Gagal mengupdate data !',
+                        text: data.data.error_message
+                      })
+                } else{
+                    loading.close();
+                    this.dispatch('allusers');
+                    this.dispatch('byukOne');
+                    this.dispatch('byukTwo');
+                    this.dispatch('byukThree');
+                    return this._vm.$vs.notification({
+                        color: 'success',
+                        duration: 6000,
+                        position: 'top-right',
+                        title: 'Berhasil Di Update !',
+                        text: 'Data karyawan berhasil di update !'
+                    })
+                }
             }).catch(err=>{
                 console.log(err);
             });
@@ -199,21 +221,38 @@ export default new Vuex.Store({
                 console.log(err);
             });
         },
-        async findoperator(){
+        async findoperator({commit}){
             await instance.post('findoperator/',{token: this.state.response.token}).then((data)=>{
-                // if(data.data.error_code == 1){
-                //     return notification.error({
-                //         message: "Ooops.. Failure Update Data !",
-                //         placement: 'topLeft',
-                //         description: "Opps... Data karyawan gagal ditambahkan ! periksa kembali internet anda atau data karyawan"})
-                // } else{
-                //     // commit.
-                //     return notification.success({
-                //         message: "Data karyawan berhasil di update !",
-                //         placement: 'topRight',
-                //         description: "Karyawan berhasil di update, kembali ke halaman karyawan untuk melihat data terbaru "})  
-                // }
-                data
+                this.state.operator = data.data.data
+                commit('ope', data.data.data);
+            }).catch(err=>{
+                console.log(err);
+            });
+        },
+        async newoperator(){
+            const loading = this._vm.$vs.loading({
+                text: 'Loading...'
+              })
+            await instance.post('register',this.state.karyawanForm).then((data)=>{
+                if(data.data.error_code == 1){
+                    loading.close();
+                    return this._vm.$vs.notification({
+                        color: 'danger',
+                        duration: 6000,
+                        position: 'top-left',
+                        title: 'Opps... Gagal menambahkan Operator !',
+                        text: data.data.error_message
+                      })
+                } else{
+                loading.close();
+                return this._vm.$vs.notification({
+                    color: 'success',
+                    duration: 6000,
+                    position: 'top-right',
+                    title: 'Berhasil Di Tambahkan !',
+                    text: 'Operator baru berhasil anda tambahkan, Login menggunakan nama lengkap dan password !'
+                  })
+                }
             }).catch(err=>{
                 console.log(err);
             });

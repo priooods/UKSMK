@@ -23,7 +23,7 @@
           >
         </div>
       </div>
-      <div class="col-md-4 sw" v-else>
+      <div class="col sw" v-else>
         <div class="row justify-content-end">
           <vs-button
             circle
